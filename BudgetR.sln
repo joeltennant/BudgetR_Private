@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR", "src\BudgetR\Budg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.Core", "src\BudgetR.Core\BudgetR.Core.csproj", "{A3EE988C-7508-4731-889E-0136BC1AF0DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetR.Server.Infrastructure", "src\Server\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj", "{7B093907-ADE0-478B-99C1-6EDF701EE0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.Server.Infrastructure", "src\Server\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj", "{7B093907-ADE0-478B-99C1-6EDF701EE0D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetR.Server.Domain", "src\Server\BudgetR.Server.Domain\BudgetR.Server.Domain.csproj", "{EF111B10-126A-47D1-91E0-13F38473A511}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.Server.Domain", "src\Server\BudgetR.Server.Domain\BudgetR.Server.Domain.csproj", "{EF111B10-126A-47D1-91E0-13F38473A511}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetR.Server.Handlers", "src\Server\BudgetR.Server.Handlers\BudgetR.Server.Handlers.csproj", "{A5DE2C99-3804-479C-8537-DC5DB19C42DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.Server.Handlers", "src\Server\BudgetR.Server.Handlers\BudgetR.Server.Handlers.csproj", "{A5DE2C99-3804-479C-8537-DC5DB19C42DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

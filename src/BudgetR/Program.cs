@@ -1,6 +1,8 @@
 using BudgetR.Components;
 using BudgetR.Components.Account;
-using BudgetR.Core.Authentication;
+using BudgetR.Core;
+using BudgetR.Server.Handlers;
+using BudgetR.Server.Infrastructure;
 using BudgetR.Server.Infrastructure.Data.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -35,6 +37,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddScoped<StateContainer>();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddHandlers();
 
 var app = builder.Build();
 
