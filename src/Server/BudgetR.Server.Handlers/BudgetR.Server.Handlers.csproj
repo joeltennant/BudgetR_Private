@@ -7,9 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
     <PackageReference Include="Serilog" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BudgetR.Core\BudgetR.Core.csproj" />
+    <ProjectReference Include="..\BudgetR.Server.Domain\BudgetR.Server.Domain.csproj" />
+    <ProjectReference Include="..\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

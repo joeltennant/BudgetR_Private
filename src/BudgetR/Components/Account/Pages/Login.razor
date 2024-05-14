@@ -1,6 +1,8 @@
 ﻿@page "/Account/Login"
 
 @using System.ComponentModel.DataAnnotations
+@using BudgetR.Core.Enums
+@using BudgetR.Server.Handlers.Handlers.Authentication
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using BudgetR.Components.Layout
@@ -94,7 +96,16 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+
+            var authenticationAction = await _mediator.Send(new GetAuthenticationAction.Request());
+            if (authenticationAction.Value == AuthenticationAction.GoToRegistration)
+            {
+                RedirectManager.RedirectTo("/FinishRegistration");
+            }
+            else
+            {
+                RedirectManager.RedirectTo(ReturnUrl);
+            }
         }
         else if (result.RequiresTwoFactor)
         {

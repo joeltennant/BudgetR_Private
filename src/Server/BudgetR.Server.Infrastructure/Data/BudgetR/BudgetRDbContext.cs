@@ -13,8 +13,8 @@ public class BudgetRDbContext : DbContext
 
     //public DbSet<AccountType> AccountTypes { get; set; }
     //public DbSet<Account> Accounts { get; set; }
-    //public DbSet<MonthYear> MonthYears { get; set; }
-    //public DbSet<BudgetMonth> BudgetMonths { get; set; }
+    public DbSet<MonthYear> MonthYears { get; set; }
+    public DbSet<BudgetMonth> BudgetMonths { get; set; }
     //public DbSet<Expense> Expenses { get; set; }
     //public DbSet<ExpenseDetail> ExpenseDetails { get; set; }
     //public DbSet<Income> Incomes { get; set; }

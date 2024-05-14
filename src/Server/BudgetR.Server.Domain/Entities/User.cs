@@ -1,5 +1,5 @@
 ﻿namespace BudgetR.Server.Domain.Entities;
-public class User
+public class User : BaseEntity
 {
     [Key]
     [Column(Order = 0)]
@@ -24,7 +24,4 @@ public class User
 
     [Column(Order = 6)]
     public bool IsActive { get; set; }
-
-    [Column(Order = 8)]
-    public long BtaId { get; set; }
 }

@@ -13,7 +13,7 @@ public class Result<T>
 
     #region ---Constructors---
 
-    //Success Constructor
+    //Success Constructors
     public Result(T value)
     {
         Value = value;
@@ -35,6 +35,13 @@ public class Result<T>
     //Error with type only
     public Result(ErrorType errorType)
     {
+        ErrorType = errorType;
+    }
+
+    //Error with type only
+    public Result(ErrorType errorType, IList<ValidationFailure> errors)
+    {
+        Errors = errors;
         ErrorType = errorType;
     }
 
@@ -73,6 +80,17 @@ public class Result<T>
     public Result<T> NotFound()
     {
         return new Result<T>(ErrorType.NotFound);
+    }
+
+    //System Error
+    public Result<T> SystemError(string message)
+    {
+        var errors = new List<ValidationFailure>
+        {
+            new ValidationFailure(string.Empty, message)
+        };
+
+        return new Result<T>(ErrorType.SystemError, errors);
     }
 
     #endregion
