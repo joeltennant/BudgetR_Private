@@ -1,5 +1,4 @@
 ﻿using BudgetR.Core.Enums;
-using FluentValidation;
 
 namespace BudgetR.Server.Handlers.Handlers.Registration;
 public class CreateUserProfile

@@ -1,0 +1,81 @@
+﻿@page "/incomes/detail/{incomeId:long}"
+@using BudgetR.Core.Models;
+@using BudgetR.Modules.Application.Incomes.Components
+@using BudgetR.Modules.Layout
+@using BudgetR.Server.Application.Handlers.Incomes;
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>Income Detail</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudDataGrid Items="@IncomeModel.IncomeDetails" Filterable="false" SortMode="@SortMode.Multiple" Groupable="false">
+            <Columns>
+                <PropertyColumn Property="x => x.MonthName" />
+                <PropertyColumn Property="x => x.Month" />
+                <PropertyColumn Property="x => x.Year" Title="Years Employed" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        @* <MudRating Size="@Size.Small" SelectedValue="@context.Item.Rating" /> *@
+                        <MudIconButton Icon="@Icons.Material.Filled.OpenInNew" aria-label="View"
+                                       OnClick="@((e) => DeleteDetail(@context.Item.MonthName,@context.Item.Year,@context.Item.IncomeDetailId))" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    [Parameter]
+    public long IncomeId { get; set; }
+
+    private IncomeModel IncomeModel { get; set; } = new IncomeModel();
+
+    protected override async Task OnInitializedAsync() => await GetIncome();
+
+    protected async Task GetIncome()
+    {
+        var result = await _mediator.Send(new Detail.Request(IncomeId));
+
+        if (result.IsSuccess)
+        {
+            IncomeModel = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Could not load income.", Severity.Error);
+        }
+    }
+
+    protected async Task DeleteDetail(string month, int year, long incomeDetailId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("Month", month);
+        parameters.Add("Year", year);
+
+        var dialog = DialogService.Show<DeleteIncomeDetailDialog>("Delete Income Detail", parameters);
+
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var deleteResult = await _mediator.Send(new RemoveIncomeDetail.Request(incomeDetailId));
+
+            if (deleteResult.IsSuccess)
+            {
+                Snackbar.Add("Income Detail Deleted", Severity.Success);
+                await GetIncome();
+            }
+            else
+            {
+                Snackbar.Add("Income Detail could not be deleted.", Severity.Error);
+            }
+        }
+    }
+}

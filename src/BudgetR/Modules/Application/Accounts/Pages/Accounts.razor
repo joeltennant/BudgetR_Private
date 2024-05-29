@@ -1,0 +1,123 @@
+﻿@page "/accounts"
+
+@using BudgetR.Core.Enums;
+@using BudgetR.Core.Models;
+@using BudgetR.Modules.Application.Accounts.Components;
+@using BudgetR.Server.Application.Handlers.Accounts;
+@using BudgetR.Modules.Layout;
+
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<PageTitle>Add Account</PageTitle>
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>My Accounts</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudButton Variant="Variant.Text" Href="/accounts/add" Style="@($"color:{Colors.Shades.White}")" Edge="Edge.End" Size="Size.Small">Add</MudButton>
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudGrid>
+            <MudItem lg="6" xs="12">
+                <MudTable Items="@DebitAccounts" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Account Type</MudTh>
+                        <MudTh>Balance</MudTh>
+                        <MudTh>Actions</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="AccountType">@context.AccountType</MudTd>
+                        <MudTd DataLabel="Balance">@context.Balance</MudTd>
+                        <MudTd DataLabel="Actions">
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@((e) => ModifyBalance(@context.Name,@context.AccountId,@context.Balance))">Modify</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@((e) => DeleteAccount(@context.Name,@context.AccountId))">Delete</MudButton>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudItem>
+            <MudItem lg="6" xs="12">
+                <MudTable Items="@CreditAccounts" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Account Type</MudTh>
+                        <MudTh>Balance</MudTh>
+                        <MudTh>Actions</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="AccountType">@context.AccountType</MudTd>
+                        <MudTd DataLabel="Balance">@context.Balance</MudTd>
+                        <MudTd DataLabel="Actions">
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@((e) => ModifyBalance(@context.Name,@context.AccountId,@context.Balance))">Modify</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@((e) => DeleteAccount(@context.Name,@context.AccountId))">Delete</MudButton>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudItem>
+        </MudGrid>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    private bool _hidePosition;
+    private bool _loading;
+    public IEnumerable<AccountModel> DebitAccounts = new List<AccountModel>();
+    public IEnumerable<AccountModel> CreditAccounts = new List<AccountModel>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await GetAccounts();
+    }
+
+    protected async Task GetAccounts()
+    {
+        var result = await _mediator.Send(new GetAccounts.Request());
+        var accounts = result.Value;
+        this.DebitAccounts = accounts.Where(x => x.BalanceType == BalanceType.Debit).ToList();
+        this.CreditAccounts = accounts.Where(x => x.BalanceType == BalanceType.Credit).ToList();
+    }
+
+    protected async Task DeleteAccount(string name, long accountId)
+    {
+        var parameters = new DialogParameters<DeleteAccountDialog> { { x => x.AccountName, name } };
+
+        var dialog = await DialogService.ShowAsync<DeleteAccountDialog>("Delete Account", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var deleteResult = await _mediator.Send(new DeleteAccount.Request(accountId));
+            if (deleteResult.IsSuccess)
+            {
+                Snackbar.Add($"Account {name} deleted.", Severity.Success);
+                await GetAccounts();
+            }
+            else
+            {
+                Snackbar.Add("Cannot delete account.", Severity.Error);
+            }
+        }
+    }
+
+    protected async Task ModifyBalance(string name, long accountId, decimal Balance)
+    {
+        var parameters = new DialogParameters<ModifyBalanceDialog>
+        {
+            { x => x.AccountName, name },
+            { x => x.AccountId, accountId },
+            { x => x.Balance, Balance}
+        };
+
+        var dialog = await DialogService.ShowAsync<ModifyBalanceDialog>("Modify Balance", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await GetAccounts();
+        }
+    }
+}

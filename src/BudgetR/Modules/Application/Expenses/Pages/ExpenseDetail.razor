@@ -1,0 +1,83 @@
+﻿@page "/expenses/detail/{expenseId:long}"
+@using BudgetR.Core.Models;
+@using BudgetR.Modules.Application.Expenses.Components;
+@using BudgetR.Server.Application.Handlers.Expenses;
+@using BudgetR.Modules.Layout
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>Expense:</ToolBarTitle>
+    <ToolBarLeftSide>
+        @ExpenseModel.Name |  Amount: @ExpenseModel.Amount | Is Active: @ExpenseModel.IsActive
+    </ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudIconButton Icon="@Icons.Material.Outlined.Edit" Color="Color.Info" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" Color="Color.Info" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Remove" Color="Color.Error" />
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudTable Items="@ExpenseModel.ExpenseDetails" Hover="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Month</MudTh>
+                <MudTh>Year</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.MonthName</MudTd>
+                <MudTd DataLabel="Amount">@context.Year</MudTd>
+                <MudTd DataLabel="Actions">
+                    <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@((e) => RemoveExpenseDetail(@context.MonthName,@context.ExpenseDetailId))">Remove</MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    [Parameter]
+    public long ExpenseId { get; set; }
+
+    private ExpenseModel ExpenseModel { get; set; } = new ExpenseModel();
+
+    protected override async Task OnInitializedAsync() => await GetExpense();
+
+    protected async Task GetExpense()
+    {
+        var result = await _mediator.Send(new Detail.Request(ExpenseId));
+        if (result.IsSuccess)
+        {
+            ExpenseModel = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Could not load expense.", Severity.Error);
+        }
+    }
+
+    protected async Task RemoveExpenseDetail(string name, long expenseDetailId)
+    {
+        var parameters = new DialogParameters<RemoveExpenseDetailDialog>
+        {
+            { x => x.Name, name },
+        };
+
+        var dialog = await DialogService.ShowAsync<RemoveExpenseDetailDialog>("Remove From Month", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var deleteResult = await _mediator.Send(new RemoveExpenseDetail.Request(expenseDetailId));
+            if (deleteResult.IsSuccess)
+            {
+                Snackbar.Add($"Expense removed from {name}.", Severity.Success);
+                await GetExpense();
+            }
+            else
+            {
+                Snackbar.Add("Cannot remove from month.", Severity.Error);
+            }
+        }
+    }
+}

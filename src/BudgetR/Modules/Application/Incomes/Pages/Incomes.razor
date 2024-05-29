@@ -1,0 +1,88 @@
+﻿@page "/incomes"
+@using BudgetR.Core.Models
+@using BudgetR.Modules.Application.Incomes.Components
+@using BudgetR.Modules.Layout
+@using BudgetR.Server.Application.Handlers.Incomes
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>Incomes</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" Href="/incomes/add" Style="@($"color:{Colors.Shades.White};")" />
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudTable Items="@incomes" Dense="true" Striped="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Is Active</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                <MudTd DataLabel="IsActive">@context.IsActive</MudTd>
+                <MudTd DataLabel="Actions">
+                    <MudIconButton Icon="@Icons.Material.Filled.OpenInNew" aria-label="View"
+                                   Href="@($"/incomes/detail/{@context.IncomeId}")" />
+                    <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@((e) => DeleteIncome(@context.Name,@context.IncomeId))">Delete</MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Body>
+</ToolBarPageTemplate>
+
+
+@code {
+    private bool _hidePosition;
+    private bool _loading;
+    public IEnumerable<IncomeModel> incomes = new List<IncomeModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetIncomes();
+    }
+
+    private async Task GetIncomes()
+    {
+        _loading = true;
+        var result = await _mediator.Send(new All.Request());
+        _loading = false;
+
+        if (result.IsSuccess)
+        {
+            incomes = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Your incomes cannot be loaded at this time.", Severity.Error);
+        }
+    }
+
+    //delete income
+    protected async Task DeleteIncome(string name, long incomeId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("Name", name);
+
+        var dialog = DialogService.Show<DeleteIncomeDialog>("Delete Income", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var deleteResult = await _mediator.Send(new Delete.Request(incomeId));
+            if (deleteResult.IsSuccess)
+            {
+                Snackbar.Add("Income deleted.", Severity.Success);
+                await GetIncomes();
+            }
+            else
+            {
+                Snackbar.Add("Income could not be deleted.", Severity.Error);
+            }
+        }
+    }
+}

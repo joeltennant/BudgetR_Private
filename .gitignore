@@ -244,3 +244,4 @@ database/scripts/
 /src/BudgetR/Server/appsettings.Development.json
 /src/Website/Client/wwwroot/appsettings.json
 /src/Dev Tools and Testing/Tools.SeedSampleData/UserSettings.json
+/src/BudgetR/ToDoList.md

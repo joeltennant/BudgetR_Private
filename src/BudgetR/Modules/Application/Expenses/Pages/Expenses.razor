@@ -1,0 +1,88 @@
+﻿@using BudgetR.Core.Models;
+@using BudgetR.Modules.Application.Expenses.Components;
+@using BudgetR.Server.Application.Handlers.Expenses;
+@using BudgetR.Modules.Layout
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@page "/expenses"
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>Expenses</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" Href="/expenses/add" Style="@($"color:{Colors.Shades.White};")" />
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudTable Items="@expenses" Dense="true" Striped="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>IsActive</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                <MudTd DataLabel="IsActive">@context.IsActive</MudTd>
+                <MudTd DataLabel="Actions">
+                    <MudIconButton Icon="@Icons.Material.Filled.OpenInNew" aria-label="View"
+                                   Href="@($"/expenses/detail/{@context.ExpenseId}")" />
+                    <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@((e) => DeleteExpense(@context.Name,@context.ExpenseId))">Delete</MudButton>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    private bool _hidePosition;
+    private bool _loading;
+    public IEnumerable<ExpenseModel> expenses = new List<ExpenseModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetExpenses();
+    }
+
+    private async Task GetExpenses()
+    {
+        _loading = true;
+        var result = await _mediator.Send(new All.Request());
+
+        if (result.IsSuccess)
+        {
+            expenses = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Your expenses cannot be loaded at this time.", Severity.Error);
+        }
+        _loading = false;
+    }
+
+    protected async Task DeleteExpense(string name, long expenseId)
+    {
+        var parameters = new DialogParameters<DeleteExpenseDialog>
+        {
+            { x => x.Name, name },
+        };
+
+        var dialog = await DialogService.ShowAsync<DeleteExpenseDialog>("Delete Expense", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var deleteResult = await _mediator.Send(new Delete.Request(expenseId));
+            if (deleteResult.IsSuccess)
+            {
+                Snackbar.Add($"Expense {name} deleted.", Severity.Success);
+                await GetExpenses();
+            }
+            else
+            {
+                Snackbar.Add("Cannot delete expense.", Severity.Error);
+            }
+        }
+    }
+}

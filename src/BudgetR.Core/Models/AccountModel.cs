@@ -12,11 +12,12 @@ public class AccountModel
 
     public long AccountTypeId { get; set; }
 
-    public string AccountType { get; set; }
+    public string? AccountType { get; set; }
 
     public decimal BalanceWithSign => BalanceType switch
     {
         BalanceType.Debit => Balance,
         BalanceType.Credit => -Balance,
+        _ => throw new NotImplementedException(),
     };
 }

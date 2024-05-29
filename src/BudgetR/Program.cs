@@ -1,6 +1,6 @@
-using BudgetR.Components;
-using BudgetR.Components.Account;
 using BudgetR.Core;
+using BudgetR.Modules;
+using BudgetR.Modules.Account;
 using BudgetR.Server.Handlers;
 using BudgetR.Server.Infrastructure;
 using BudgetR.Server.Infrastructure.Data.Authentication;

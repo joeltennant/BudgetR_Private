@@ -1,0 +1,83 @@
+﻿@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@using BudgetR.Core.Models;
+@using BudgetR.Server.Application.Handlers.Expenses;
+@using BudgetR.Server.Application.Handlers.BudgetMonths;
+
+@page "/expenses/add"
+
+<MudGrid>
+    <MudItem xs="12">
+        <h2>Add Expense</h2>
+    </MudItem>
+    <MudItem xs="4" Class="mt-4">
+        <MudPaper>
+            <MudGrid Class="pa-3">
+                <MudItem xs="12" Class="pt-0">
+                    Add Expense
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="Name" Label="Name" Variant="Variant.Filled"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="decimal" @bind-Value="Amount" Label="Filled" Variant="Variant.Filled"></MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="long" MultiSelection="true"
+                               SelectAll="true"
+                               SelectAllText="Select all"
+                    @bind-SelectedValues="SelectedMonths"
+                               Label="Budget Months"
+                               AdornmentIcon="@Icons.Material.Filled.Search">
+                        @foreach (BudgetMonthModel month in BudgetMonths)
+                        {
+                            <MudSelectItem T="long" Value="@month.BudgetMonthId">@month.Year - @month.MonthName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>Create())">Add Expense</MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+@code {
+    public string Name { get; set; }
+    public decimal Amount { get; set; }
+    public IEnumerable<BudgetMonthModel> BudgetMonths { get; set; } = new List<BudgetMonthModel>();
+    public IEnumerable<long> SelectedMonths { get; set; } = new List<long>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _mediator.Send(new Next36Months.Request());
+        if (result.IsSuccess)
+        {
+            BudgetMonths = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Cannot get budget months.", Severity.Error);
+        }
+    }
+
+    private async void Create()
+    {
+        var request = new Create.Request
+            {
+                Name = Name,
+                Amount = Amount,
+                BudgetMonths = SelectedMonths
+            };
+        var result = await _mediator.Send(request);
+        if (result.IsSuccess)
+        {
+            Snackbar.Add($"Expense {Name} has been created.", Severity.Success);
+            NavigationManager.NavigateTo("/expenses");
+        }
+        else
+        {
+            Snackbar.Add("Cannot create expense.", Severity.Error);
+        }
+    }
+}

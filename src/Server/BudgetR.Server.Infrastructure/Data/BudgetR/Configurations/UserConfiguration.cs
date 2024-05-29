@@ -21,7 +21,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     FirstName = "System",
                     HouseholdId = null,
                     UserType = UserType.System,
-                    BtaId = 1
+                    BusinessTransactionActivityId = 1
                 }
             );
     }

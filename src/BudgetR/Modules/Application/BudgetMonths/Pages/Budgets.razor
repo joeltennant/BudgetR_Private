@@ -1,0 +1,88 @@
+﻿@page "/budgets"
+@using BudgetR.Core.Models;
+@using BudgetR.Server.Application.Handlers.BudgetMonths;
+@using BudgetR.Modules.Layout
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+<ToolBarPageTemplate BodyColums="6" ToolBarColumns="6">
+    <ToolBarTitle>Budgets</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudSwitch @bind-Checked="@ShowActive" Label="Show Active Only"></MudSwitch>
+    </ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        <MudTable Items="@BudgetMonthModels" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info"
+                  Dense="true" Striped="true" OnRowClick="RowClickEvent" Filter="new Func<BudgetMonthModel,bool>(FilterBudgets)" T="BudgetMonthModel">
+            <HeaderContent>
+                <MudTh>Month</MudTh>
+                <MudTh>Year</MudTh>
+                <MudTh>Income Total</MudTh>
+                <MudTh>Expense Total</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Month">@context.MonthName</MudTd>
+                <MudTd DataLabel="Year">@context.Year</MudTd>
+                <MudTd DataLabel="Income Total">@context.IncomeTotal</MudTd>
+                <MudTd DataLabel="Expense Total">@context.ExpenseTotal</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    private IEnumerable<BudgetMonthModel> BudgetMonthModels = new List<BudgetMonthModel>();
+    private bool _loading;
+    private bool ShowActive = true;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetBudgets();
+    }
+
+    private async Task GetBudgets()
+    {
+        _loading = true;
+        var result = await _mediator.Send(new AllBudgets.Request());
+
+        if (result.IsSuccess)
+        {
+            BudgetMonthModels = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Your budgets cannot be loaded at this time.", Severity.Error);
+        }
+        _loading = false;
+    }
+
+    private void RowClickEvent(TableRowClickEventArgs<BudgetMonthModel> arg)
+    {
+        NavigationManager.NavigateTo($"/budgets/{arg.Item.BudgetMonthId}");
+        // NavigationManager.NavigateTo("/accounts");
+    }
+
+
+    private bool FilterBudgets(BudgetMonthModel budget) => FilterFunc(budget, ShowActive);
+
+    private bool FilterFunc(BudgetMonthModel budget, bool ShowActive)
+    {
+        if (!ShowActive)
+        {
+            return true;
+        }
+        if (ShowActive && budget.IsActive)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private class BudgetSearchParams
+    {
+        public int Year { get; set; }
+        public bool ShowActive { get; set; }
+    }
+}

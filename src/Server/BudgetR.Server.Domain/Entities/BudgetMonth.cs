@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace BudgetR.Server.Domain.Entities;
-public class BudgetMonth
+﻿namespace BudgetR.Server.Domain.Entities;
+public class BudgetMonth : BaseEntity
 {
     [Key]
     [Column(Order = 0)]

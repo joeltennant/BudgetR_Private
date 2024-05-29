@@ -1,0 +1,45 @@
+﻿@inject ISnackbar Snackbar
+@using BudgetR.Server.Application.Handlers.Accounts;
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3 mb-n1" />
+            Modify @AccountName Balance
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudTextField T="decimal" @bind-Value="Balance" Label="Filled" Variant="Variant.Filled"></MudTextField>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="Modify">Modify Balance</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string AccountName { get; set; }
+    [Parameter] public long AccountId { get; set; }
+    [Parameter] public decimal Balance { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async void Modify()
+    {
+        var result = await _mediator.Send(new ModifyBalance.Request(AccountId, Balance));
+        if (result.IsSuccess)
+        {
+            Snackbar.Add($"Account {AccountName} balanced changed to {Balance}.", Severity.Success);
+        }
+        else
+        {
+            Snackbar.Add("Cannot delete account.", Severity.Error);
+        }
+        
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}

@@ -1,0 +1,23 @@
+﻿@page "/budgets/{budgetId:long}"
+@using BudgetR.Core.Models;
+@using BudgetR.Server.Application.Handlers.BudgetMonths;
+@using BudgetR.Modules.Layout
+
+<ToolBarPageTemplate BodyColums="6" ToolBarColumns="6">
+    <ToolBarTitle>Budgets</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide></ToolBarRightSide>
+    @* This is the body of the page *@
+    <Body>
+        text
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    [Parameter]
+    public long BudgetId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}

@@ -9,7 +9,7 @@ public class BusinessTransactionActivityConfiguration : IEntityTypeConfiguration
                 {
                     BusinessTransactionActivityId = 1,
                     ProcessName = "Initial Seeding",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
                     UserId = 1
                 }
             );

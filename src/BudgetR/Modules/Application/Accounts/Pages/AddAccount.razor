@@ -1,0 +1,83 @@
+﻿@using BudgetR.Core.Enums;
+@using BudgetR.Core.Models;
+@using BudgetR.Server.Application.Handlers.Accounts;
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+
+@page "/accounts/add"
+<PageTitle>Add Account</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12">
+        <h2>Add Account</h2>
+    </MudItem>
+    <MudItem xs="5">
+        <MudPaper Class="pa-3">
+            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudTextField T="string" Label="Account Name" @bind-Value="AccountName" Required="true" RequiredError="Account name is required!" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudNumericField T="decimal" Label="Balance" @bind-Value="Balance" Required="true" RequiredError="Balance is required!" Margin="Margin.Dense" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudSelect Label="Account Type" @bind-Value="AccountTypeId" Required="true" RequiredError="Account Type is required!" Margin="Margin.Dense">
+                            @foreach (var accountType in AccountTypeModels)
+                            {
+                                <MudSelectItem Value="@accountType.AccountTypeId">@accountType.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" Size="Size.Small" OnClick="@(()=>Add())">Add Account</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public string? AccountName { get; set; }
+    public decimal Balance { get; set; } = 0.00m;
+    public BalanceType BalanceType { get; set; } = BalanceType.Debit;
+    public long AccountTypeId { get; set; } = 1;
+    public IList<AccountTypeModel> AccountTypeModels { get; set; } = new List<AccountTypeModel>();
+
+    MudForm form;
+    private bool success;
+    private string[] errors;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _mediator.Send(new GetAccountTypes.Request());
+
+        if (result.IsSuccess)
+        {
+            AccountTypeModels = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Cannot load Account Types.", Severity.Error);
+        }
+    }
+
+    protected async Task Add()
+    {
+        var result = await _mediator.Send(new Add.Request(AccountName = AccountName, Balance = Balance, AccountTypeId = AccountTypeId));
+
+        if (result.IsSuccess)
+        {
+            Snackbar.Add($"Account '{AccountName} has been added.", Severity.Success);
+            NavigationManager.NavigateTo("/accounts");
+        }
+        else
+        {
+            Snackbar.Add(string.Join(", ", result.Errors), Severity.Error);
+        }
+    }
+}
