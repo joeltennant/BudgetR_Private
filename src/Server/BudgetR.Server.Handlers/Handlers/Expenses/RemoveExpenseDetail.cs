@@ -25,7 +25,6 @@ public class RemoveExpenseDetail
                         Amount = e.Expense.Amount
                     }
                 })
-
                 .FirstOrDefaultAsync();
 
             if (expenseDetail is not null)

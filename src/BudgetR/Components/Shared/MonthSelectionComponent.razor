@@ -1,0 +1,75 @@
+﻿@inject ISnackbar Snackbar
+@using BudgetR.Core.Models;
+@using BudgetR.Server.Application.Handlers.Incomes;
+@using BudgetR.Server.Application.Handlers.BudgetMonths;
+
+<MudSelect T="SelectionType"
+           @bind-Value="MonthSelection.SelectionType"
+           Label="Month Generation Type">
+    @foreach (var selectionType in SelectionTypes)
+    {
+        <MudSelectItem T="SelectionType" Value="@selectionType">@selectionType.ToString()</MudSelectItem>
+    }
+</MudSelect>
+@if (MonthSelection.SelectionType == SelectionType.Selected
+                    || MonthSelection.SelectionType == SelectionType.All)
+{
+    <MudPaper Elevation="0" Class="mt-3">
+        <MudSelect T="long" MultiSelection="true" SelectAll="true" SelectAllText="Select all"
+                   @bind-SelectedValues="SelectedMonths"
+                   Label="Budget Months"
+                   AdornmentIcon="@Icons.Material.Filled.Search">
+            @foreach (BudgetMonthModel month in BudgetMonths)
+            {
+                <MudSelectItem T="long" Value="@month.BudgetMonthId">@month.Year - @month.MonthName</MudSelectItem>
+            }
+        </MudSelect>
+    </MudPaper>
+}
+@if (MonthSelection.SelectionType == SelectionType.Monthly
+                    || MonthSelection.SelectionType == SelectionType.EveryOtherMonth
+                    || MonthSelection.SelectionType == SelectionType.EveryThreeMonths
+                    || MonthSelection.SelectionType == SelectionType.Yearly
+                    || MonthSelection.SelectionType == SelectionType.Once
+                    )
+{
+    <MudGrid Class="mt-3">
+        <MudItem xs="3">
+            <MudNumericField @bind-Value="MonthSelection.StartMonth" Label="Start Month" Variant="Variant.Outlined" Min="1" Max="12" FullWidth="false" />
+        </MudItem>
+        <MudItem xs="3">
+            <MudNumericField @bind-Value="MonthSelection.StartYear" Label="Start Year" Variant="Variant.Outlined" Min="@minStartYear" Max="2099" FullWidth="false" />
+        </MudItem>
+        <MudItem xs="3">
+            @if (MonthSelection.SelectionType != SelectionType.Once)
+            {
+                <MudNumericField @bind-Value="MonthSelection.Duration" Label="Duration" Variant="Variant.Outlined" Min="2" Max="50" FullWidth="false" />
+            }
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    public IEnumerable<BudgetMonthModel> BudgetMonths { get; set; } = new List<BudgetMonthModel>();
+    public IEnumerable<long> SelectedMonths { get; set; } = new List<long>();
+    public IEnumerable<SelectionType> SelectionTypes => Enum.GetValues(typeof(SelectionType)).Cast<SelectionType>();
+    public int minStartYear = DateTime.Now.Year;
+
+    [Parameter]
+    public MonthSelection MonthSelection { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MonthSelection = new();
+        var result = await _mediator.Send(new Next36Months.Request());
+        if (result.IsSuccess)
+        {
+            BudgetMonths = result.Value;
+        }
+        else
+        {
+            Snackbar.Add("Cannot get budget months.", Severity.Error);
+        }
+        MonthSelection.SelectionType = SelectionType.Monthly;
+    }
+}

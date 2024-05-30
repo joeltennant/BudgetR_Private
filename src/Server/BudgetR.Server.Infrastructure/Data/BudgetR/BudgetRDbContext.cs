@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System.Reflection;
 
 namespace BudgetR.Server.Infrastructure.Data.BudgetR;
 public class BudgetRDbContext : DbContext
@@ -10,6 +11,8 @@ public class BudgetRDbContext : DbContext
     public BudgetRDbContext(DbContextOptions<BudgetRDbContext> options) : base(options)
     {
     }
+
+    public bool IsTestMode { get; set; } = false;
 
     public DbSet<Household> Households { get; set; }
     public DbSet<User> Users { get; set; }
@@ -43,6 +46,26 @@ public class BudgetRDbContext : DbContext
                       .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
                       .ToList()
                       .ForEach(fk => fk.DeleteBehavior = DeleteBehavior.Restrict);
+        }
+    }
+
+    public async Task<IDbContextTransaction?> BeginTransactionContext()
+    {
+        if (!IsTestMode)
+        {
+            return await this.Database.BeginTransactionAsync();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public async Task CommitTransactionContext(IDbContextTransaction? transaction)
+    {
+        if (transaction is not null)
+        {
+            await transaction.CommitAsync();
         }
     }
 }

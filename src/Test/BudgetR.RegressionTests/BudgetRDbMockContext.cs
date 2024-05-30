@@ -1,5 +1,4 @@
-﻿using BudgetR.Server.Infrastructure.Data.BudgetR;
-using Microsoft.EntityFrameworkCore;
+﻿using BudgetR.Server.Services;
 using System.Data.Common;
 
 namespace BudgetR.RegressionTests;
@@ -10,11 +9,31 @@ public class BudgetRDbMockContext
     private readonly DbContextOptions<BudgetRDbContext> _contextOptions;
     private const string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=BudgetR.Test.Data;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-    //BudgetRDbContext CreateContext() => new BudgetRDbContext(_contextOptions);
+    public BudgetRDbContext? Context;
 
     public BudgetRDbContext CreateContext()
-        => new BudgetRDbContext(
+    {
+        try
+        {
+            var context = new BudgetRDbContext(
             new DbContextOptionsBuilder<BudgetRDbContext>()
                 .UseSqlServer(ConnectionString)
                 .Options);
+
+            context.IsTestMode = true;
+
+            Context = context;
+
+            return Context;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+
+    public void UpdateSystemMonths()
+    {
+        new UpdateMonthsService(Context).Execute();
+    }
 }

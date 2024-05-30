@@ -1,0 +1,37 @@
+﻿<MudGrid>
+    <MudItem xs="12">
+        <MudItem xs="@ToolBarColumns">
+            <MudPaper Elevation="25" Style="@($"color:{Colors.Shades.White};background-color:{Colors.DeepPurple.Darken4}")">
+                <MudToolBar>
+                    <MudText Typo="Typo.h5" Class="pr-3">@ToolBarTitle</MudText>
+                    @ToolBarLeftSide
+                    <MudSpacer />
+                    @ToolBarRightSide
+                </MudToolBar>
+            </MudPaper>
+        </MudItem>
+    </MudItem>
+    <MudItem xs="@BodyColums">
+        @Body
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public RenderFragment? ToolBarTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment? ToolBarRightSide { get; set; }
+
+    [Parameter]
+    public RenderFragment? ToolBarLeftSide { get; set; }
+
+    [Parameter]
+    public RenderFragment? Body { get; set; }
+
+    [Parameter]
+    public int BodyColums { get; set; }
+
+    [Parameter]
+    public int ToolBarColumns { get; set; }
+}

@@ -1,0 +1,107 @@
+﻿@using BudgetR.Modules.Layout
+@using BudgetR.Core.Enums
+@using BudgetR.Server.Handlers.Handlers.Registration
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+@page "/finishregistration"
+
+<PageTitle>Registration</PageTitle>
+
+<h1>Registration</h1>
+
+<ToolBarPageTemplate BodyColums="8" ToolBarColumns="8">
+    <ToolBarTitle>My Accounts</ToolBarTitle>
+    <ToolBarLeftSide></ToolBarLeftSide>
+    <ToolBarRightSide>
+        <MudButton Variant="Variant.Text" Href="/accounts/add" Style="@($"color:{Colors.Shades.White}")" Edge="Edge.End" Size="Size.Small">Add</MudButton>
+    </ToolBarRightSide>
+    <Body>
+        <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <MudTabPanel Text="Setup Profile">
+                <MudText>Setup Profile</MudText>
+            </MudTabPanel>
+            <MudTabPanel Text="Create or Join Household/Organization">
+                @{
+                    if (Step == 1)
+                    {
+                        <MudText>Step 1</MudText>
+                        <MudButton Variant="Variant.Filled">Create user</MudButton>
+                    }
+                    else if (Step == 2)
+                    {
+                        <MudText>Step 2</MudText>
+                        <MudButton Variant="Variant.Filled">Create household</MudButton>
+                    }
+                }
+            </MudTabPanel>
+        </MudTabs>
+    </Body>
+</ToolBarPageTemplate>
+
+@code {
+    public AuthenticationAction registrationAction { get; set; }
+    public int Step { get; set; }
+    public string FirstName = "Joel";
+    public string LastName = "";
+    public string HouseholdName = "Tennant";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _mediator.Send(new GetRegistrationAction.Request());
+        if (result.IsSuccess)
+        {
+            registrationAction = result.Value;
+
+            if (registrationAction == AuthenticationAction.AlreadyFullyRegistered)
+            {
+            }
+            else if (registrationAction == AuthenticationAction.NoUserExists)
+            {
+                Step = 1;
+            }
+            else if (registrationAction == AuthenticationAction.HasNoHousehold)
+            {
+                Step = 2;
+            }
+        }
+        else
+        {
+            Snackbar.Add("Cannot load page, please logout and login again.", Severity.Error);
+        }
+    }
+
+    private async void CreateUserProfileAction()
+    {
+        var request = new CreateUserProfile.Request(FirstName, LastName);
+
+        var result = await _mediator.Send(request);
+
+        if (result.IsSuccess)
+        {
+            Snackbar.Add($"Profile has been created.", Severity.Success);
+            NavigationManager.NavigateTo("/incomes");
+        }
+        else
+        {
+            Snackbar.Add("Cannot create profile.", Severity.Error);
+        }
+    }
+
+    private async void CreateHouseholdAction()
+    {
+        var request = new CreateHouseHold.Request(HouseholdName);
+
+        var result = await _mediator.Send(request);
+
+        if (result.IsSuccess)
+        {
+            Snackbar.Add($"Household has been created.", Severity.Success);
+            NavigationManager.NavigateTo("/incomes");
+        }
+        else
+        {
+            Snackbar.Add("Cannot create household.", Severity.Error);
+        }
+    }
+}

@@ -6,5 +6,7 @@ public class BaseEntity
     public BusinessTransactionActivity? BusinessTransactionActivity { get; set; }
 
     public long? ModifiedBy { get; set; }
+
+    [NotMapped]
     public User? ModifiedByUser { get; set; }
 }

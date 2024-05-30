@@ -1,9 +1,12 @@
-﻿namespace BudgetR.Server.Handlers;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace BudgetR.Server.Handlers;
 public abstract class BaseHandler<T>
 {
     protected readonly BudgetRDbContext _context;
     protected readonly StateContainer _stateContainer;
     protected Result<T> Result;
+    protected IDbContextTransaction? transaction;
 
     protected BaseHandler(BudgetRDbContext dbContext, StateContainer stateContainer)
     {

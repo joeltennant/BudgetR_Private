@@ -1,9 +1,11 @@
-﻿namespace BudgetR.Server.Application.Handlers.Expenses;
+﻿using System.Data;
+
+namespace BudgetR.Server.Application.Handlers.Expenses;
 
 public static class Create
 {
 
-    public class Request : IRequest<Result<NoValue>>
+    public class Request : IRequest<Result<long?>>
     {
         public string? Name { get; set; }
         public decimal? Amount { get; set; }
@@ -24,7 +26,7 @@ public static class Create
         }
     }
 
-    public class Handler : BaseHandler<NoValue>, IRequestHandler<Request, Result<NoValue>>
+    public class Handler : BaseHandler<long?>, IRequestHandler<Request, Result<long?>>
     {
         private readonly Validator _validator = new();
 
@@ -33,39 +35,49 @@ public static class Create
         {
         }
 
-        public async Task<Result<NoValue>> Handle(Request request, CancellationToken cancellationToken)
+        public async Task<Result<long?>> Handle(Request request, CancellationToken cancellationToken)
         {
-            var validation = await _validator.ValidateAsync(request);
-            if (!validation.IsValid)
+            transaction = await _context.BeginTransactionContext();
+
+            try
             {
-                return Result.Error(validation.Errors);
+                var validation = await _validator.ValidateAsync(request);
+                if (!validation.IsValid)
+                {
+                    return Result.Error(validation.Errors);
+                }
+
+                long BtaId = await CreateBta();
+
+                var expense = new Expense
+                {
+                    Name = request.Name,
+                    Amount = request.Amount.Value,
+                    HouseholdId = _stateContainer.HouseholdId.Value,
+                    IsActive = true,
+                    BusinessTransactionActivityId = BtaId,
+                };
+
+                if (request.BudgetMonths.IsPopulated())
+                {
+                    expense.ExpenseDetails = BuildExpenseDetails(request.BudgetMonths.ToList());
+                }
+
+                await _context.Expenses.AddAsync(expense);
+                await _context.SaveChangesAsync();
+
+                if (request.BudgetMonths.IsPopulated())
+                {
+                    await UpdateBudgetMonthExpenseTotals(request.BudgetMonths.ToList(), request.Amount, BtaId);
+                }
+
+                await _context.CommitTransactionContext(transaction);
+                return Result.Success(expense.ExpenseId);
             }
-
-            long BtaId = await CreateBta();
-
-            var expense = new Expense
+            catch (Exception ex)
             {
-                Name = request.Name,
-                Amount = request.Amount.Value,
-                HouseholdId = _stateContainer.HouseholdId.Value,
-                IsActive = true,
-                BusinessTransactionActivityId = BtaId,
-            };
-
-            if (request.BudgetMonths.IsPopulated())
-            {
-                expense.ExpenseDetails = BuildExpenseDetails(request.BudgetMonths.ToList());
+                return Result.SystemError(ex.Message);
             }
-
-            await _context.Expenses.AddAsync(expense);
-            await _context.SaveChangesAsync();
-
-            if (request.BudgetMonths.IsPopulated())
-            {
-                await UpdateBudgetMonthExpenseTotals(request.BudgetMonths.ToList(), request.Amount, BtaId);
-            }
-
-            return Result.Success();
         }
 
         /// <summary>

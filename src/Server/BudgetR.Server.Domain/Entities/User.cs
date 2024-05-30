@@ -6,7 +6,7 @@ public class User : BaseEntity
     public long UserId { get; set; }
 
     [Column(Order = 1)]
-    public string AuthenticationId { get; set; }
+    public string? AuthenticationId { get; set; }
 
     [Column(Order = 2)]
     public string? FirstName { get; set; }
