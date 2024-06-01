@@ -12,4 +12,7 @@ public class BusinessTransactionActivity
 
     [Column(Order = 3)]
     public long? UserId { get; set; }
+
+    [Column(Order = 4)]
+    public User? User { get; set; }
 }

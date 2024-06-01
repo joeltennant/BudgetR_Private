@@ -45,6 +45,7 @@ public class Add
                 Balance = request.Balance.Value,
                 AccountTypeId = request.AccountTypeId,
                 HouseholdId = _stateContainer.HouseholdId.Value,
+                ModifiedBy = _stateContainer.UserId.Value,
                 BusinessTransactionActivity = new BusinessTransactionActivity
                 {
                     ProcessName = "Accounts.Add",

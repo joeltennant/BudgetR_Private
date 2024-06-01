@@ -48,7 +48,7 @@ public class CreateUserProfile
 
                 string authenticationId = _stateContainer.ApplicationUserId;
 
-                CreateBta();
+                await CreateBta();
 
                 var user = new User
                 {

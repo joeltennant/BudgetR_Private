@@ -1,5 +1,5 @@
 ﻿namespace BudgetR.Server.Domain.Entities;
-public class User : BaseEntity
+public class User
 {
     [Key]
     [Column(Order = 0)]
@@ -24,4 +24,10 @@ public class User : BaseEntity
 
     [Column(Order = 6)]
     public bool IsActive { get; set; }
+
+    [Column(Order = 7)]
+    public long? BusinessTransactionActivityId { get; set; }
+
+    [Column(Order = 8)]
+    public long? ModifiedBy { get; set; }
 }

@@ -1,5 +1,3 @@
-using BudgetR.Modules.Account.Pages;
-using BudgetR.Modules.Account.Pages.Manage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;

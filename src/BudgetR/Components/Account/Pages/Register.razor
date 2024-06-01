@@ -99,7 +99,8 @@
         }
 
         await SignInManager.SignInAsync(user, isPersistent: false);
-        RedirectManager.RedirectTo(ReturnUrl);
+        // RedirectManager.RedirectTo(ReturnUrl);
+        RedirectManager.RedirectTo("/FinishRegistration");
     }
 
     private ApplicationUser CreateUser()

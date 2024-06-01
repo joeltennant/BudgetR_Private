@@ -26,12 +26,12 @@
                     if (Step == 1)
                     {
                         <MudText>Step 1</MudText>
-                        <MudButton Variant="Variant.Filled">Create user</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="CreateUserProfileAction">Create user</MudButton>
                     }
                     else if (Step == 2)
                     {
                         <MudText>Step 2</MudText>
-                        <MudButton Variant="Variant.Filled">Create household</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="CreateHouseholdAction">Create household</MudButton>
                     }
                 }
             </MudTabPanel>

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
 {
     [DbContext(typeof(BudgetRDbContext))]
-    [Migration("20240530123615_Initial")]
+    [Migration("20240601203900_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -184,7 +184,12 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(3);
 
+                    b.Property<long?>("UserId1")
+                        .HasColumnType("bigint");
+
                     b.HasKey("BusinessTransactionActivityId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("BusinessTransactionActivities");
 
@@ -192,7 +197,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         new
                         {
                             BusinessTransactionActivityId = 1L,
-                            CreatedAt = new DateTime(2024, 5, 30, 6, 36, 14, 676, DateTimeKind.Local).AddTicks(5261),
+                            CreatedAt = new DateTime(2024, 6, 1, 14, 38, 59, 626, DateTimeKind.Local).AddTicks(4398),
                             ProcessName = "Initial Seeding",
                             UserId = 1L
                         });
@@ -1576,10 +1581,8 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         .HasColumnOrder(1);
 
                     b.Property<long?>("BusinessTransactionActivityId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("BusinessTransactionActivityId1")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -1608,15 +1611,14 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         .HasColumnName("ModifiedAt");
 
                     b.Property<long?>("ModifiedBy")
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(8);
 
                     b.Property<int>("UserType")
                         .HasColumnType("int")
                         .HasColumnOrder(5);
 
                     b.HasKey("UserId");
-
-                    b.HasIndex("BusinessTransactionActivityId1");
 
                     b.HasIndex("HouseholdId");
 
@@ -1693,6 +1695,15 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                     b.Navigation("Household");
 
                     b.Navigation("MonthYear");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.Expense", b =>
@@ -1783,15 +1794,9 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
 
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.User", b =>
                 {
-                    b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
-                        .WithMany()
-                        .HasForeignKey("BusinessTransactionActivityId1");
-
                     b.HasOne("BudgetR.Server.Domain.Entities.Household", "Household")
                         .WithMany("Users")
                         .HasForeignKey("HouseholdId");
-
-                    b.Navigation("BusinessTransactionActivity");
 
                     b.Navigation("Household");
                 });
