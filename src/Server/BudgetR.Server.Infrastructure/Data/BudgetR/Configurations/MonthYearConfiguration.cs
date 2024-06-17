@@ -10,7 +10,7 @@ public class MonthYearConfiguration : IEntityTypeConfiguration<MonthYear>
 
     private IList<MonthYear> BuildMonthYearList()
     {
-        int Year = 2023;
+        int Year = 2024;
         int Month = 1;
         int numberOfMonths = 120;
         IList<MonthYear> monthYears = new List<MonthYear>();
