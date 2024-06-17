@@ -1,3 +1,6 @@
+--Date: 2024-05-30
+--Always check that this script is up to date with the latest migration script
+--When you update, be sure to change the date above
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
@@ -406,4 +409,3 @@ GO
 
 COMMIT;
 GO
-
