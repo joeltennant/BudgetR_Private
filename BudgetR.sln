@@ -28,7 +28,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.Server.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR.deprecated", "src\BudgetR.Deprecated\BudgetR.deprecated.csproj", "{D1358BBF-B58F-4939-B63D-EDE6F4184795}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetR", "src\BudgetR\BudgetR.csproj", "{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BudgetR", "src\BudgetR\BudgetR.csproj", "{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3AEA7CC4-BC37-40C7-B433-FDC34A01556F}"
+	ProjectSection(SolutionItems) = preProject
+		ToDoList.MD = ToDoList.MD
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
