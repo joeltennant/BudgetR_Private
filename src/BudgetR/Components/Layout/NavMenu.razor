@@ -3,7 +3,7 @@
 <MudNavMenu>
     <AuthorizeView>
         <Authorized>
-            <MudNavLink Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
             <MudNavLink Href="/accounts" Match="NavLinkMatch.Prefix">Accounts</MudNavLink>
             <MudNavGroup Title="Budget" Expanded="true">
                 <MudNavLink Href="/budgets" Match="NavLinkMatch.Prefix">Budgets</MudNavLink>
@@ -19,7 +19,7 @@
             <MudNavLink>
                 <form action="Account/Logout" method="post">
                     <AntiforgeryToken />
-                    <input type="hidden" name="ReturnUrl" value="/" />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                     <button type="submit">
                         Logout
                     </button>

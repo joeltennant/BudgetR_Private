@@ -24,7 +24,7 @@
                     <MudTextField T="decimal" @bind-Value="Amount" Label="Filled" Variant="Variant.Filled"></MudTextField>
                 </MudItem>
                 <MudItem xs="12">
-                    <MonthSelectionComponent MonthSelection="@MonthSelection" />
+                    <MonthSelectionComponent />
                 </MudItem>
                 <MudItem xs="12">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>Create())">Add Income</MudButton>
@@ -38,15 +38,18 @@
     public string Name { get; set; }
     public decimal Amount { get; set; }
 
-    public MonthSelection MonthSelection;
-
     private async void Create()
     {
+        if (StateContainer.MonthSelection is null)
+        {
+            Snackbar.Add("Month selection is null.", Severity.Error);
+        }
+
         var request = new Add.Request
             {
                 Name = Name,
                 Amount = Amount,
-                MonthSelection = MonthSelection
+                MonthSelection = StateContainer.MonthSelection
             };
 
         var result = await _mediator.Send(request);
@@ -54,6 +57,7 @@
         if (result.IsSuccess)
         {
             Snackbar.Add($"{Name} income has been created.", Severity.Success);
+            StateContainer.MonthSelection = null;//reset
             NavigationManager.NavigateTo("/incomes");
         }
         else

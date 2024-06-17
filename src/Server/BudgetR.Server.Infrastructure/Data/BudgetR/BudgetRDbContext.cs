@@ -51,9 +51,17 @@ public class BudgetRDbContext : DbContext
 
     public async Task<IDbContextTransaction?> BeginTransactionContext()
     {
+        IDbContextTransaction? transaction = this.Database.CurrentTransaction;
         if (!IsTestMode)
         {
-            return await this.Database.BeginTransactionAsync();
+            if (transaction is null)
+            {
+                return await this.Database.BeginTransactionAsync();
+            }
+            else
+            {
+                return transaction;
+            }
         }
         else
         {

@@ -1,4 +1,6 @@
-﻿namespace BudgetR.Core;
+﻿using BudgetR.Core.Models;
+
+namespace BudgetR.Core;
 public class StateContainer
 {
     private long? _currentUserId;
@@ -11,8 +13,6 @@ public class StateContainer
     private string? email;
 
     public string? Email { get; set; }
-
-    public string? FirstName { get; set; }
 
     public string? ApplicationUserId { get; set; }
 
@@ -27,6 +27,18 @@ public class StateContainer
     public string? ProcessName { get; set; }
 
     public long? BtaId { get; set; }
+
+    private MonthSelection? _monthSelection;
+
+    public MonthSelection? MonthSelection
+    {
+        get => _monthSelection;
+        set
+        {
+            _monthSelection = value;
+            NotifyStateChanged();
+        }
+    }
 
     public event Action? OnChange;
 

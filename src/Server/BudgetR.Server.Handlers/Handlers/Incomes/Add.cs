@@ -19,9 +19,6 @@ public class Add
             RuleFor(x => x.Amount)
                 .NotNull()
                 .GreaterThanOrEqualTo(0);
-            RuleFor(x => x.MonthSelection)
-                .NotNull()
-                .NotEmpty();
         }
     }
 
@@ -37,42 +34,53 @@ public class Add
 
         public async Task<Result<NoValue>> Handle(Request request, CancellationToken cancellationToken)
         {
-            var validation = await _validator.ValidateAsync(request);
-            if (!validation.IsValid)
+            transaction = await _context.BeginTransactionContext();
+
+            try
             {
-                return Result.Error(validation.Errors);
+
+                var validation = await _validator.ValidateAsync(request);
+                if (!validation.IsValid)
+                {
+                    return Result.Error(validation.Errors);
+                }
+
+                long BtaId = await CreateBta();
+
+                var income = new Income
+                {
+                    HouseholdId = (long)_stateContainer.HouseholdId,
+                    Name = request.Name,
+                    Amount = request.Amount,
+                    IsActive = true,
+                    BusinessTransactionActivityId = BtaId
+                };
+
+                List<long>? budgetMonths = await _buildMonthListFromSelection
+                        .BuildBudgetMonthListFromSelection(request.MonthSelection);
+
+                if (budgetMonths == null)
+                {
+                    return Result.Error();
+                }
+
+                income.IncomeDetails = BuildIncomeDetails(budgetMonths);
+
+                await _context.Incomes.AddAsync(income);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                if (budgetMonths.IsPopulated())
+                {
+                    await UpdateBudgetMonthIncomeTotals(budgetMonths, request.Amount, BtaId);
+                }
+
+                await _context.CommitTransactionContext(transaction);
+                return Result.Success();
             }
-
-            long BtaId = await CreateBta();
-
-            var income = new Income
+            catch (Exception ex)
             {
-                HouseholdId = (long)_stateContainer.HouseholdId,
-                Name = request.Name,
-                Amount = request.Amount,
-                IsActive = true,
-                BusinessTransactionActivityId = BtaId
-            };
-
-            List<long>? budgetMonths = await _buildMonthListFromSelection
-                    .BuildBudgetMonthListFromSelection(request.MonthSelection);
-
-            if (budgetMonths == null)
-            {
-                return Result.Error();
+                return Result.SystemError(ex.Message);
             }
-
-            income.IncomeDetails = BuildIncomeDetails(budgetMonths);
-
-            await _context.Incomes.AddAsync(income);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            if (budgetMonths.IsPopulated())
-            {
-                await UpdateBudgetMonthIncomeTotals(budgetMonths, request.Amount, BtaId);
-            }
-
-            return Result.Success();
         }
 
         private List<IncomeDetail>? BuildIncomeDetails(IList<long>? budgetMonths)
