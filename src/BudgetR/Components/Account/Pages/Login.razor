@@ -101,8 +101,9 @@
             }
             else
             {
-                // RedirectManager.RedirectTo(ReturnUrl);
-                RedirectManager.RedirectTo("/");
+                RedirectManager.RedirectTo(ReturnUrl);
+                // NavigationManager.NavigateTo("/");
+                // RedirectManager.RedirectTo("/");
             }
         }
         else if (result.RequiresTwoFactor)
