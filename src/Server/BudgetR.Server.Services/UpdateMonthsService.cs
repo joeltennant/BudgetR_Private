@@ -1,6 +1,5 @@
 ﻿using BudgetR.Core.Extensions;
 using BudgetR.Server.Domain.Entities;
-using BudgetR.Server.Infrastructure.Data.BudgetR;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetR.Server.Services;

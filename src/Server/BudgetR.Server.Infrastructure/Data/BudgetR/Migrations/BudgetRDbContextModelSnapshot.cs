@@ -173,20 +173,17 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         .HasColumnOrder(2);
 
                     b.Property<string>("ProcessName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnOrder(1);
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(3);
 
-                    b.Property<long?>("UserId1")
-                        .HasColumnType("bigint");
-
                     b.HasKey("BusinessTransactionActivityId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("BusinessTransactionActivities");
 
@@ -194,7 +191,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         new
                         {
                             BusinessTransactionActivityId = 1L,
-                            CreatedAt = new DateTime(2024, 6, 1, 14, 38, 59, 626, DateTimeKind.Local).AddTicks(4398),
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 50, 3, 949, DateTimeKind.Local).AddTicks(9848),
                             ProcessName = "Initial Seeding",
                             UserId = 1L
                         });
@@ -372,6 +369,30 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             }));
                 });
 
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.HouseholdParameter", b =>
+                {
+                    b.Property<long>("HouseholdParameterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("HouseholdParameterId"));
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("HouseholdParameterType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HouseholdParameterId");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.ToTable("HouseholdParameters");
+                });
+
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.Income", b =>
                 {
                     b.Property<long>("IncomeId")
@@ -535,15 +556,15 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
                             MonthYearId = 2L,
                             IsActive = true,
                             Month = 2,
-                            NumberOfDays = 28,
-                            Year = 2023
+                            NumberOfDays = 29,
+                            Year = 2024
                         },
                         new
                         {
@@ -551,7 +572,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -559,7 +580,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -567,7 +588,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -575,7 +596,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -583,7 +604,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -591,7 +612,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -599,7 +620,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -607,7 +628,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -615,7 +636,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -623,7 +644,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2023
+                            Year = 2024
                         },
                         new
                         {
@@ -631,15 +652,15 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
                             MonthYearId = 14L,
                             IsActive = true,
                             Month = 2,
-                            NumberOfDays = 29,
-                            Year = 2024
+                            NumberOfDays = 28,
+                            Year = 2025
                         },
                         new
                         {
@@ -647,7 +668,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -655,7 +676,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -663,7 +684,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -671,7 +692,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -679,7 +700,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -687,7 +708,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -695,7 +716,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -703,7 +724,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -711,7 +732,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -719,7 +740,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2024
+                            Year = 2025
                         },
                         new
                         {
@@ -727,7 +748,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -735,7 +756,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 2,
                             NumberOfDays = 28,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -743,7 +764,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -751,7 +772,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -759,7 +780,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -767,7 +788,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -775,7 +796,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -783,7 +804,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -791,7 +812,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -799,7 +820,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -807,7 +828,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -815,7 +836,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2025
+                            Year = 2026
                         },
                         new
                         {
@@ -823,7 +844,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -831,7 +852,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 2,
                             NumberOfDays = 28,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -839,7 +860,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -847,7 +868,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -855,7 +876,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -863,7 +884,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -871,7 +892,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -879,7 +900,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -887,7 +908,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -895,7 +916,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -903,7 +924,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -911,7 +932,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2026
+                            Year = 2027
                         },
                         new
                         {
@@ -919,15 +940,15 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
                             MonthYearId = 50L,
                             IsActive = true,
                             Month = 2,
-                            NumberOfDays = 28,
-                            Year = 2027
+                            NumberOfDays = 29,
+                            Year = 2028
                         },
                         new
                         {
@@ -935,7 +956,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -943,7 +964,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -951,7 +972,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -959,7 +980,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -967,7 +988,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -975,7 +996,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -983,7 +1004,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -991,7 +1012,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -999,7 +1020,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -1007,7 +1028,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2027
+                            Year = 2028
                         },
                         new
                         {
@@ -1015,15 +1036,15 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
                             MonthYearId = 62L,
                             IsActive = true,
                             Month = 2,
-                            NumberOfDays = 29,
-                            Year = 2028
+                            NumberOfDays = 28,
+                            Year = 2029
                         },
                         new
                         {
@@ -1031,7 +1052,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1039,7 +1060,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1047,7 +1068,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1055,7 +1076,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1063,7 +1084,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1071,7 +1092,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1079,7 +1100,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1087,7 +1108,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1095,7 +1116,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1103,7 +1124,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2028
+                            Year = 2029
                         },
                         new
                         {
@@ -1111,7 +1132,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1119,7 +1140,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 2,
                             NumberOfDays = 28,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1127,7 +1148,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1135,7 +1156,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1143,7 +1164,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1151,7 +1172,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1159,7 +1180,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1167,7 +1188,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1175,7 +1196,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1183,7 +1204,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1191,7 +1212,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1199,7 +1220,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2029
+                            Year = 2030
                         },
                         new
                         {
@@ -1207,7 +1228,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1215,7 +1236,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 2,
                             NumberOfDays = 28,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1223,7 +1244,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1231,7 +1252,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1239,7 +1260,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1247,7 +1268,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1255,7 +1276,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1263,7 +1284,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1271,7 +1292,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1279,7 +1300,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1287,7 +1308,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1295,7 +1316,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
-                            Year = 2030
+                            Year = 2031
                         },
                         new
                         {
@@ -1303,107 +1324,11 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             IsActive = true,
                             Month = 1,
                             NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 98L,
-                            IsActive = true,
-                            Month = 2,
-                            NumberOfDays = 28,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 99L,
-                            IsActive = true,
-                            Month = 3,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 100L,
-                            IsActive = true,
-                            Month = 4,
-                            NumberOfDays = 30,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 101L,
-                            IsActive = true,
-                            Month = 5,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 102L,
-                            IsActive = true,
-                            Month = 6,
-                            NumberOfDays = 30,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 103L,
-                            IsActive = true,
-                            Month = 7,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 104L,
-                            IsActive = true,
-                            Month = 8,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 105L,
-                            IsActive = true,
-                            Month = 9,
-                            NumberOfDays = 30,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 106L,
-                            IsActive = true,
-                            Month = 10,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 107L,
-                            IsActive = true,
-                            Month = 11,
-                            NumberOfDays = 30,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 108L,
-                            IsActive = true,
-                            Month = 12,
-                            NumberOfDays = 31,
-                            Year = 2031
-                        },
-                        new
-                        {
-                            MonthYearId = 109L,
-                            IsActive = true,
-                            Month = 1,
-                            NumberOfDays = 31,
                             Year = 2032
                         },
                         new
                         {
-                            MonthYearId = 110L,
+                            MonthYearId = 98L,
                             IsActive = true,
                             Month = 2,
                             NumberOfDays = 29,
@@ -1411,7 +1336,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 111L,
+                            MonthYearId = 99L,
                             IsActive = true,
                             Month = 3,
                             NumberOfDays = 31,
@@ -1419,7 +1344,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 112L,
+                            MonthYearId = 100L,
                             IsActive = true,
                             Month = 4,
                             NumberOfDays = 30,
@@ -1427,7 +1352,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 113L,
+                            MonthYearId = 101L,
                             IsActive = true,
                             Month = 5,
                             NumberOfDays = 31,
@@ -1435,7 +1360,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 114L,
+                            MonthYearId = 102L,
                             IsActive = true,
                             Month = 6,
                             NumberOfDays = 30,
@@ -1443,7 +1368,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 115L,
+                            MonthYearId = 103L,
                             IsActive = true,
                             Month = 7,
                             NumberOfDays = 31,
@@ -1451,7 +1376,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 116L,
+                            MonthYearId = 104L,
                             IsActive = true,
                             Month = 8,
                             NumberOfDays = 31,
@@ -1459,7 +1384,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 117L,
+                            MonthYearId = 105L,
                             IsActive = true,
                             Month = 9,
                             NumberOfDays = 30,
@@ -1467,7 +1392,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 118L,
+                            MonthYearId = 106L,
                             IsActive = true,
                             Month = 10,
                             NumberOfDays = 31,
@@ -1475,7 +1400,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 119L,
+                            MonthYearId = 107L,
                             IsActive = true,
                             Month = 11,
                             NumberOfDays = 30,
@@ -1483,11 +1408,107 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                         },
                         new
                         {
-                            MonthYearId = 120L,
+                            MonthYearId = 108L,
                             IsActive = true,
                             Month = 12,
                             NumberOfDays = 31,
                             Year = 2032
+                        },
+                        new
+                        {
+                            MonthYearId = 109L,
+                            IsActive = true,
+                            Month = 1,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 110L,
+                            IsActive = true,
+                            Month = 2,
+                            NumberOfDays = 28,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 111L,
+                            IsActive = true,
+                            Month = 3,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 112L,
+                            IsActive = true,
+                            Month = 4,
+                            NumberOfDays = 30,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 113L,
+                            IsActive = true,
+                            Month = 5,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 114L,
+                            IsActive = true,
+                            Month = 6,
+                            NumberOfDays = 30,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 115L,
+                            IsActive = true,
+                            Month = 7,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 116L,
+                            IsActive = true,
+                            Month = 8,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 117L,
+                            IsActive = true,
+                            Month = 9,
+                            NumberOfDays = 30,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 118L,
+                            IsActive = true,
+                            Month = 10,
+                            NumberOfDays = 31,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 119L,
+                            IsActive = true,
+                            Month = 11,
+                            NumberOfDays = 30,
+                            Year = 2033
+                        },
+                        new
+                        {
+                            MonthYearId = 120L,
+                            IsActive = true,
+                            Month = 12,
+                            NumberOfDays = 31,
+                            Year = 2033
                         });
                 });
 
@@ -1562,6 +1583,314 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                             BalanceType = 0,
                             Name = "Other"
                         });
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.FlaggedTransaction", b =>
+                {
+                    b.Property<long>("FlaggedTransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FlaggedTransactionId"));
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(19, 2)
+                        .HasColumnType("decimal(19,2)")
+                        .HasColumnOrder(4);
+
+                    b.Property<long?>("BusinessTransactionActivityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Complete")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(12);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("FlagType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(11);
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(10);
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TransactionBatchId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(9);
+
+                    b.Property<long?>("TransactionCategoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(8);
+
+                    b.Property<DateOnly?>("TransactionDate")
+                        .HasColumnType("date")
+                        .HasColumnOrder(5);
+
+                    b.Property<int>("TransactionMonth")
+                        .HasMaxLength(2)
+                        .HasColumnType("int")
+                        .HasColumnOrder(6);
+
+                    b.Property<int?>("TransactionType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<int>("TransactionYear")
+                        .HasMaxLength(4)
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
+
+                    b.HasKey("FlaggedTransactionId");
+
+                    b.HasIndex("BusinessTransactionActivityId");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("TransactionCategoryId");
+
+                    b.ToTable("FlaggedTransactions");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.Transaction", b =>
+                {
+                    b.Property<long>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionId"));
+
+                    b.Property<long?>("AccountId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(19, 2)
+                        .HasColumnType("decimal(19,2)")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(10);
+
+                    b.Property<long?>("TransactionBatchId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(9);
+
+                    b.Property<long?>("TransactionCategoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(8);
+
+                    b.Property<DateOnly?>("TransactionDate")
+                        .HasColumnType("date")
+                        .HasColumnOrder(5);
+
+                    b.Property<int>("TransactionMonth")
+                        .HasMaxLength(2)
+                        .HasColumnType("int")
+                        .HasColumnOrder(6);
+
+                    b.Property<int?>("TransactionType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(3);
+
+                    b.Property<int>("TransactionYear")
+                        .HasMaxLength(4)
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("HouseholdId");
+
+                    b.HasIndex("TransactionBatchId");
+
+                    b.HasIndex("TransactionCategoryId");
+
+                    b.HasIndex("TransactionMonth", "TransactionYear");
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionBatch", b =>
+                {
+                    b.Property<long>("TransactionBatchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionBatchId"));
+
+                    b.Property<long?>("BusinessTransactionActivityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("RecordCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Source")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TransactionBatchId");
+
+                    b.HasIndex("BusinessTransactionActivityId");
+
+                    b.ToTable("TransactionBatches");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionCategory", b =>
+                {
+                    b.Property<long>("TransactionCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionCategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.Property<long?>("HouseholdId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.HasKey("TransactionCategoryId");
+
+                    b.ToTable("TransactionCategories");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionCategoryRule", b =>
+                {
+                    b.Property<long>("TransactionCategoryRuleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionCategoryRuleId"));
+
+                    b.Property<long?>("BusinessTransactionActivityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CategoryId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<string>("CategoryRuleName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("ComparisonType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(6);
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Rule")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
+
+                    b.Property<long?>("TransactionCategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("TransactionType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(5);
+
+                    b.HasKey("TransactionCategoryRuleId");
+
+                    b.HasIndex("BusinessTransactionActivityId");
+
+                    b.HasIndex("TransactionCategoryId");
+
+                    b.ToTable("TransactionCategoryRules");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionTypeRule", b =>
+                {
+                    b.Property<long>("TransactionTypeRuleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionTypeRuleId"));
+
+                    b.Property<int?>("AssignTransactionType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(6);
+
+                    b.Property<long?>("BusinessTransactionActivityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("ComparisonType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(8);
+
+                    b.Property<long?>("ModifiedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("NumericRule")
+                        .HasColumnType("bigint")
+                        .HasColumnOrder(2);
+
+                    b.Property<int>("RuleLevel")
+                        .HasColumnType("int")
+                        .HasColumnOrder(5);
+
+                    b.Property<int?>("RuleOnTransactionType")
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
+
+                    b.Property<string>("StringRule")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
+
+                    b.Property<string>("TransactionTypeRuleName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("TransactionTypeRuleId");
+
+                    b.HasIndex("BusinessTransactionActivityId");
+
+                    b.ToTable("TransactionTypeRules");
                 });
 
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.User", b =>
@@ -1697,8 +2026,8 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", b =>
                 {
                     b.HasOne("BudgetR.Server.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithOne("BusinessTransactionActivity")
+                        .HasForeignKey("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "UserId");
 
                     b.Navigation("User");
                 });
@@ -1746,6 +2075,17 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                     b.Navigation("BusinessTransactionActivity");
                 });
 
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.HouseholdParameter", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.Household", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Household");
+                });
+
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.Income", b =>
                 {
                     b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
@@ -1789,6 +2129,83 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                     b.Navigation("BusinessTransactionActivity");
                 });
 
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.FlaggedTransaction", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
+                        .WithMany()
+                        .HasForeignKey("BusinessTransactionActivityId");
+
+                    b.HasOne("BudgetR.Server.Domain.Entities.Household", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BudgetR.Server.Domain.Entities.Transactions.TransactionCategory", "TransactionCategory")
+                        .WithMany()
+                        .HasForeignKey("TransactionCategoryId");
+
+                    b.Navigation("BusinessTransactionActivity");
+
+                    b.Navigation("Household");
+
+                    b.Navigation("TransactionCategory");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.Transaction", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.Household", "Household")
+                        .WithMany()
+                        .HasForeignKey("HouseholdId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BudgetR.Server.Domain.Entities.Transactions.TransactionBatch", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("TransactionBatchId");
+
+                    b.HasOne("BudgetR.Server.Domain.Entities.Transactions.TransactionCategory", "TransactionCategory")
+                        .WithMany()
+                        .HasForeignKey("TransactionCategoryId");
+
+                    b.Navigation("Household");
+
+                    b.Navigation("TransactionCategory");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionBatch", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
+                        .WithMany()
+                        .HasForeignKey("BusinessTransactionActivityId");
+
+                    b.Navigation("BusinessTransactionActivity");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionCategoryRule", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
+                        .WithMany()
+                        .HasForeignKey("BusinessTransactionActivityId");
+
+                    b.HasOne("BudgetR.Server.Domain.Entities.Transactions.TransactionCategory", "TransactionCategory")
+                        .WithMany()
+                        .HasForeignKey("TransactionCategoryId");
+
+                    b.Navigation("BusinessTransactionActivity");
+
+                    b.Navigation("TransactionCategory");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionTypeRule", b =>
+                {
+                    b.HasOne("BudgetR.Server.Domain.Entities.BusinessTransactionActivity", "BusinessTransactionActivity")
+                        .WithMany()
+                        .HasForeignKey("BusinessTransactionActivityId");
+
+                    b.Navigation("BusinessTransactionActivity");
+                });
+
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.User", b =>
                 {
                     b.HasOne("BudgetR.Server.Domain.Entities.Household", "Household")
@@ -1811,6 +2228,16 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.Income", b =>
                 {
                     b.Navigation("IncomeDetails");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Transactions.TransactionBatch", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.User", b =>
+                {
+                    b.Navigation("BusinessTransactionActivity");
                 });
 #pragma warning restore 612, 618
         }

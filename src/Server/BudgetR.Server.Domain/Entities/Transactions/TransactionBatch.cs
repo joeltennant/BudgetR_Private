@@ -7,7 +7,7 @@ public class TransactionBatch : BaseEntity
     public DateTime? CompletedAt { get; set; }
     public int? RecordCount { get; set; }
     public BatchSource? Source { get; set; }
-    public List<ProcessedFile>? ProcessedFiles { get; set; }
+    public string? FileName { get; set; }
     public ICollection<Transaction>? Transactions { get; set; }
     public long HouseholdId { get; set; }
 }

@@ -36,6 +36,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ToDoList.MD = ToDoList.MD
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{F2A12870-5DFB-4302-B768-FC3CD3105E84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetR.Tools.TransactionHandler", "src\Tools\BudgetR.Tools.TransactionHandler\BudgetR.Tools.TransactionHandler.csproj", "{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +78,10 @@ Global
 		{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +96,7 @@ Global
 		{8E131CBF-98FC-4F38-B589-56A63DAB111A} = {10A902A5-299D-4EB5-A5BE-7E5167F9372C}
 		{D1358BBF-B58F-4939-B63D-EDE6F4184795} = {C67E9A26-958D-4830-9A5E-7C9582F31AEB}
 		{1AEAE2C9-3FED-4277-8BFA-8CA939DF1AD2} = {C67E9A26-958D-4830-9A5E-7C9582F31AEB}
+		{82FCD2F7-9294-4FB6-B04C-C01D9DECBF84} = {F2A12870-5DFB-4302-B768-FC3CD3105E84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC05EF65-3C10-468D-B312-2ED1E0D0367E}

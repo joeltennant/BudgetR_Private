@@ -5,13 +5,13 @@ public class BusinessTransactionActivity
     [Column(Order = 0)]
     public long BusinessTransactionActivityId { get; set; }
     [Column(Order = 1)]
-    public string ProcessName { get; set; }
+    public string? ProcessName { get; set; }
 
     [Column(Order = 2)]
     public DateTime CreatedAt { get; set; }
 
     [Column(Order = 3)]
-    public long? UserId { get; set; }
+    public long UserId { get; set; }
 
     [Column(Order = 4)]
     public User? User { get; set; }

@@ -3,6 +3,12 @@ public class BusinessTransactionActivityConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<BusinessTransactionActivity> builder)
     {
+        builder
+            .HasOne(b => b.User)
+            .WithOne(u => u.BusinessTransactionActivity)
+            .HasForeignKey<BusinessTransactionActivity>(f => f.UserId)
+            .IsRequired(false);
+
         builder.HasData
             (
                 new BusinessTransactionActivity

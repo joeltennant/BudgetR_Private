@@ -27,6 +27,7 @@ public class User
 
     [Column(Order = 7)]
     public long? BusinessTransactionActivityId { get; set; }
+    public BusinessTransactionActivity? BusinessTransactionActivity { get; set; }
 
     [Column(Order = 8)]
     public long? ModifiedBy { get; set; }

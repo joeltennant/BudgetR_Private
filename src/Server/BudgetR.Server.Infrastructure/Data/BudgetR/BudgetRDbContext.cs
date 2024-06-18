@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using BudgetR.Server.Domain.Entities.Transactions;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 
 namespace BudgetR.Server.Infrastructure.Data.BudgetR;
@@ -26,14 +27,13 @@ public class BudgetRDbContext : DbContext
     public DbSet<ExpenseDetail> ExpenseDetails { get; set; }
     public DbSet<Income> Incomes { get; set; }
     public DbSet<IncomeDetail> IncomeDetails { get; set; }
-    //public DbSet<ProcessedFile> ProcessedFiles { get; set; }
-    //public DbSet<TransactionBatch> TransactionBatches { get; set; }
-    //public DbSet<Transaction> Transactions { get; set; }
-    //public DbSet<TransactionCategory> TransactionCategories { get; set; }
-    //public DbSet<TransactionCategoryRule> TransactionCategoryRules { get; set; }
-    //public DbSet<TransactionTypeRule> TransactionTypeRules { get; set; }
-    ////public DbSet<Note> Notes { get; set; }
-    //public DbSet<FlaggedTransaction> FlaggedTransactions { get; set; }
+    public DbSet<TransactionBatch> TransactionBatches { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<TransactionCategory> TransactionCategories { get; set; }
+    public DbSet<TransactionCategoryRule> TransactionCategoryRules { get; set; }
+    public DbSet<TransactionTypeRule> TransactionTypeRules { get; set; }
+    public DbSet<FlaggedTransaction> FlaggedTransactions { get; set; }
+    public DbSet<HouseholdParameter> HouseholdParameters { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
