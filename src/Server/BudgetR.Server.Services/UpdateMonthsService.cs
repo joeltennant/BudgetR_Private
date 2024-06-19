@@ -48,10 +48,10 @@ public class UpdateMonthsService
                 _context.BusinessTransactionActivities.Add(bta);
                 _context.SaveChanges();
             }
-            //else
-            //{
-            //    return Result.Success();
-            //}
+            else
+            {
+                return;
+            }
 
             int monthsChanged = _context.MonthYears
                 .Where(x => pastMonthYears.Contains(x.MonthYearId))

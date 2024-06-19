@@ -9,9 +9,10 @@ public class TransactionService
         _context = context;
     }
 
-    public void LoadAndProcessTransactions()
+    public void LoadAndProcessTransactions(long householdId)
     {
         var _fileLoader = new FileLoaderHelper(_context);
+        _fileLoader.LoadFiles(householdId);
     }
 
     public void ReProcessTransactions()

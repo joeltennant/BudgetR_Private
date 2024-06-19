@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\BudgetR.Core\BudgetR.Core.csproj" />
     <ProjectReference Include="..\BudgetR.Server.Domain\BudgetR.Server.Domain.csproj" />
     <ProjectReference Include="..\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj" />
+    <ProjectReference Include="..\BudgetR.Server.Services\BudgetR.Server.Services.csproj" />
   </ItemGroup>
 
 </Project>

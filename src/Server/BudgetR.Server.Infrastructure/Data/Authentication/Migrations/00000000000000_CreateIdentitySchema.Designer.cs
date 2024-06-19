@@ -161,8 +161,6 @@ partial class CreateIdentitySchema
 
                 b.HasKey("Id");
 
-                b.HasIndex("UserId");
-
                 b.ToTable("AspNetUserClaims", (string)null);
             });
 
@@ -182,8 +180,6 @@ partial class CreateIdentitySchema
                     .HasColumnType("nvarchar(450)");
 
                 b.HasKey("LoginProvider", "ProviderKey");
-
-                b.HasIndex("UserId");
 
                 b.ToTable("AspNetUserLogins", (string)null);
             });

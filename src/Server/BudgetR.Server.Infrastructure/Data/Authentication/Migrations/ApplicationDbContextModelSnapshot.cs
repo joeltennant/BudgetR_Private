@@ -158,8 +158,6 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 
                 b.HasKey("Id");
 
-                b.HasIndex("UserId");
-
                 b.ToTable("AspNetUserClaims", (string)null);
             });
 
@@ -179,8 +177,6 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                     .HasColumnType("nvarchar(450)");
 
                 b.HasKey("LoginProvider", "ProviderKey");
-
-                b.HasIndex("UserId");
 
                 b.ToTable("AspNetUserLogins", (string)null);
             });

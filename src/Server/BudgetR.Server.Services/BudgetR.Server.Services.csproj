@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\BudgetR.Core\BudgetR.Core.csproj" />
     <ProjectReference Include="..\BudgetR.Server.Domain\BudgetR.Server.Domain.csproj" />
     <ProjectReference Include="..\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj" />
