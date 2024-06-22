@@ -10,10 +10,9 @@ public class TransactionProcessorDto
     public long? UserId { get; set; }
     public long? HouseholdId { get; set; }
     public bool HasErrors { get; set; }
-    public List<string> ErrorMessage { get; set; }
+    public string ErrorMessage { get; set; }
     public TransactionProcessorDto()
     {
-        ErrorMessage = new List<string>();
         HasErrors = false;
     }
 }
