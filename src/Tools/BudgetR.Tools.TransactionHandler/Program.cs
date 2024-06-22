@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using BudgetR.Core;
 using BudgetR.Server.Infrastructure.Data.BudgetR;
 using BudgetR.Server.Services;
 using BudgetR.Server.Services.AccountGenerator;
@@ -24,7 +25,13 @@ Console.WriteLine("4. Seed Account");
 Console.WriteLine("");
 Console.WriteLine("Enter Number: ");
 
-long householdId = 1;
+StateContainer stateContainer = new()
+{
+    UserId = 1,//system user
+    HouseholdId = 1
+};
+
+long householdId = stateContainer.HouseholdId.Value;
 
 var response = Console.ReadLine();
 
@@ -32,8 +39,8 @@ if (response == "1")
 {
     new UpdateMonthsService(context).Execute();
 
-    var TransactionService = new TransactionService(context);
-    TransactionService.LoadAndProcessTransactions(householdId);
+    var TransactionService = new TransactionService(context, stateContainer);
+    await TransactionService.LoadAndProcessTransactions();
 }
 else if (response == "2")
 {
@@ -48,6 +55,7 @@ else if (response == "4")
 {
     new UpdateMonthsService(context).Execute();
     await new BuildAccountsFromTransactions(context).Build(householdId);
+    await new BuildCategoriesFromTransactions(context).Build(householdId);
 }
 else
 {

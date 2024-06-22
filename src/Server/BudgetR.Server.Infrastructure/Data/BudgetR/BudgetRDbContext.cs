@@ -34,7 +34,7 @@ public class BudgetRDbContext : DbContext
     public DbSet<TransactionTypeRule> TransactionTypeRules { get; set; }
     public DbSet<FlaggedTransaction> FlaggedTransactions { get; set; }
     public DbSet<HouseholdParameter> HouseholdParameters { get; set; }
-
+    public DbSet<Log> Logs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

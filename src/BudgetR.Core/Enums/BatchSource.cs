@@ -2,5 +2,6 @@
 public enum BatchSource
 {
     Batch,
-    CSV
+    CSV,
+    API
 }

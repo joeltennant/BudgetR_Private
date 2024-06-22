@@ -1,18 +1,18 @@
-﻿using BudgetR.Core;
-using BudgetR.Core.Enums;
+﻿using BudgetR.Core.Enums;
 using BudgetR.Core.Extensions;
 using BudgetR.Server.Domain.Entities;
+using BudgetR.Server.Domain.Entities.Transactions;
 using BudgetR.Server.Services.Transactions.Helpers;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
-namespace BudgetR.Server.Services.AccountGenerator;
-public class BuildAccountsFromTransactions
+
+public class BuildCategoriesFromTransactions
 {
     private readonly BudgetRDbContext _context;
-    public BuildAccountsFromTransactions(BudgetRDbContext context)
+    public BuildCategoriesFromTransactions(BudgetRDbContext context)
     {
         _context = context;
     }
@@ -59,41 +59,36 @@ public class BuildAccountsFromTransactions
             }
 
             //Now find accounts 
-            var accountsCount = _context.Accounts
+            var count = _context.TransactionCategories
                 .Where(a => a.HouseholdId == householdId)
                 .Count();
-
-            if (accountsCount > 0)
-            {
-                await _context.CommitTransactionContext(transaction);
-
-                return;
-            }
 
             List<string> names = new();
 
             foreach (var t in transactions)
             {
-                if (!names.Contains(t.AccountName))
+                if (!names.Contains(t.Category))
                 {
-                    names.Add(t.AccountName);
+                    names.Add(t.Category);
                 }
             }
 
-            //create Account entity objects from list of names
             foreach (var name in names)
             {
-                (BalanceType balanceType, long AccountTypeId) types = DetermineAccountTypeAndBalanceType(name);
-                var account = new Account
+                if (_context.TransactionCategories.Any(t => t.HouseholdId == householdId && t.CategoryName == name))
                 {
-                    Name = name,
-                    LongName = name,
-                    AccountTypeId = types.AccountTypeId,
-                    Balance = 0,
-                    HouseholdId = householdId
-                };
+                    continue;
+                }
+                else
+                {
+                    var category = new TransactionCategory
+                    {
+                        CategoryName = name,
+                        HouseholdId = householdId
+                    };
 
-                await _context.Accounts.AddAsync(account);
+                    _context.TransactionCategories.Add(category);
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -104,44 +99,6 @@ public class BuildAccountsFromTransactions
         {
             throw;
         }
-    }
-
-    private (BalanceType balanceType, long AccountTypeId) DetermineAccountTypeAndBalanceType(string name)
-    {
-        (BalanceType balanceType, long AccountTypeId) types = new();
-
-        if (name.Contains("Checking"))
-        {
-            types.balanceType = BalanceType.Debit;
-            types.AccountTypeId = AppConstants.AccountTypes.Checking;
-        }
-        else if (name.Contains("Savings"))
-        {
-            types.balanceType = BalanceType.Debit;
-            types.AccountTypeId = AppConstants.AccountTypes.Savings;
-        }
-        else if (name.Contains("Credit"))
-        {
-            types.balanceType = BalanceType.Credit;
-            types.AccountTypeId = AppConstants.AccountTypes.CreditCard;
-        }
-        else if (name.Contains("Loan"))
-        {
-            types.balanceType = BalanceType.Credit;
-            types.AccountTypeId = AppConstants.AccountTypes.Loan;
-        }
-        else if (name.Contains("Investment"))
-        {
-            types.balanceType = BalanceType.Debit;
-            types.AccountTypeId = AppConstants.AccountTypes.Investment;
-        }
-        else
-        {
-            types.balanceType = BalanceType.Debit;
-            types.AccountTypeId = AppConstants.AccountTypes.Other;
-        }
-
-        return types;
     }
 
     private List<TransactionCSVData> GetTransactionData(string fileName)

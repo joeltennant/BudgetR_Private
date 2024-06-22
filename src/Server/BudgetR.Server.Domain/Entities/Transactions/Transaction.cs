@@ -41,4 +41,7 @@ public class Transaction
     [Column(Order = 10)]
     public long HouseholdId { get; set; }
     public Household? Household { get; set; }
+
+    [Column(Order = 11)]
+    public bool PreventReprocessing { get; set; }
 }
