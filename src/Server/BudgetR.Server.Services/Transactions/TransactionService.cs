@@ -2,6 +2,7 @@
 using BudgetR.Core.Extensions;
 using BudgetR.Server.Domain.Entities;
 using BudgetR.Server.Services.Transactions.Helpers;
+using BudgetR.Server.Services.Transactions.Steps;
 
 namespace BudgetR.Server.Services.Transactions;
 public class TransactionService
@@ -55,11 +56,19 @@ public class TransactionService
 
         try
         {
-            /* Step 1: Initialize Transaction Batch and create Bta
-             * Step 2: Add Transactions Type
-            * Step 2 : Connect Bank Account ID's
-            * Step 3 : Add Categories
-            */
+            var steps = PopulateProcessTransactionsSteps();
+
+            foreach (var item in steps.OrderBy(s => s.StepOrder))
+            {
+                var step = item.Step.Compile().Invoke();
+                transactionProcessorDto = await step.Execute(transactionProcessorDto);
+
+                if (transactionProcessorDto.HasErrors)
+                {
+                    throw new Exception($"{transactionProcessorDto.ErrorMessage}");
+                }
+            }
+
             await _context.CommitTransactionContext(transaction);
             return true;
         }
@@ -78,9 +87,6 @@ public class TransactionService
 
             return false;
         }
-
-
-
     }
 
     public void ReProcessTransactions()
@@ -88,5 +94,13 @@ public class TransactionService
 
     }
 
-
+    public List<TransactionStep> PopulateProcessTransactionsSteps()
+    {
+        return new List<TransactionStep>
+            {
+                new() { Step = () => new InitializeTransactionProcess(_context, _stateContainer), StepOrder = 1 },
+                new() { Step = () => new DetermineAccountId(_context, _stateContainer), StepOrder = 2 },
+                new() { Step = () => new DuplicateBatchChecker(_context, _stateContainer), StepOrder = 3 },
+            };
+    }
 }

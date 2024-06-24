@@ -1,16 +1,15 @@
-﻿using BudgetR.Core.Extensions;
+﻿using BudgetR.Core;
+using BudgetR.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetR.Server.Services.Transactions.Processors;
-public class DuplicateBatchChecker
+namespace BudgetR.Server.Services.Transactions.Steps;
+public class DuplicateBatchChecker : TransactionStepBase
 {
-    private readonly BudgetRDbContext _context;
-    public DuplicateBatchChecker(BudgetRDbContext context)
+    public DuplicateBatchChecker(BudgetRDbContext context, StateContainer stateContainer) : base(context, stateContainer)
     {
-        _context = context;
     }
 
-    public async Task<TransactionProcessorDto> Execute(TransactionProcessorDto transactionProcessor)
+    public override async Task<TransactionProcessorDto> Execute(TransactionProcessorDto transactionProcessor)
     {
         int recordCount = transactionProcessor.TransactionBatchDto.RecordCount.Value;
 

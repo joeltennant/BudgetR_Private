@@ -1,15 +1,14 @@
-﻿using BudgetR.Server.Domain.Entities;
+﻿using BudgetR.Core;
+using BudgetR.Server.Domain.Entities;
 
-namespace BudgetR.Server.Services.Transactions.Processors;
-public class InitializeTransactionProcess
+namespace BudgetR.Server.Services.Transactions.Steps;
+public class InitializeTransactionProcess : TransactionStepBase
 {
-    private readonly BudgetRDbContext _context;
-    public InitializeTransactionProcess(BudgetRDbContext context)
+    public InitializeTransactionProcess(BudgetRDbContext context, StateContainer stateContainer) : base(context, stateContainer)
     {
-        _context = context;
     }
 
-    public async Task<TransactionProcessorDto> Execute(TransactionProcessorDto transactionProcessor)
+    public override async Task<TransactionProcessorDto> Execute(TransactionProcessorDto transactionProcessor)
     {
         transactionProcessor.BTA_ID = await CreateBta(transactionProcessor.UserId.Value, transactionProcessor.TransactionBatchDto.HouseholdId);
 
