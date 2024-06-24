@@ -13,7 +13,7 @@ public class InitializeTransactionProcess : TransactionStepBase
         transactionProcessor.BTA_ID = await CreateBta(transactionProcessor.UserId.Value, transactionProcessor.TransactionBatchDto.HouseholdId);
 
         transactionProcessor.TransactionBatchDto.StartedAt = DateTime.Now;
-        //get record count for bath dto
+
         transactionProcessor.TransactionBatchDto.RecordCount = transactionProcessor.TransactionBatchDto.Transactions.Count;
 
         return transactionProcessor;
