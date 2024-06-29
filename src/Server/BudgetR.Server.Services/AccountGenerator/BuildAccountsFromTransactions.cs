@@ -21,8 +21,6 @@ public class BuildAccountsFromTransactions
     {
         try
         {
-            var transaction = await _context.BeginTransactionContext();
-
             var TransactionBatches = new List<TransactionBatchDto>();
 
             string? incomingDirectoryPath = await _context.HouseholdParameters
@@ -50,6 +48,10 @@ public class BuildAccountsFromTransactions
                     TransactionBatches.Add(transactionBatch);
                 }
             }
+            else
+            {
+                return;
+            }
 
             List<TransactionCSVData> transactions = new();
 
@@ -62,13 +64,6 @@ public class BuildAccountsFromTransactions
             var accountsCount = _context.Accounts
                 .Where(a => a.HouseholdId == householdId)
                 .Count();
-
-            if (accountsCount > 0)
-            {
-                await _context.CommitTransactionContext(transaction);
-
-                return;
-            }
 
             List<string> names = new();
 
@@ -97,8 +92,6 @@ public class BuildAccountsFromTransactions
             }
 
             await _context.SaveChangesAsync();
-
-            await _context.CommitTransactionContext(transaction);
         }
         catch (Exception)
         {

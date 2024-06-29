@@ -21,8 +21,6 @@ public class BuildCategoriesFromTransactions
     {
         try
         {
-            var transaction = await _context.BeginTransactionContext();
-
             var TransactionBatches = new List<TransactionBatchDto>();
 
             string? incomingDirectoryPath = await _context.HouseholdParameters
@@ -50,6 +48,10 @@ public class BuildCategoriesFromTransactions
                     TransactionBatches.Add(transactionBatch);
                 }
             }
+            else
+            {
+                return;
+            }
 
             List<TransactionCSVData> transactions = new();
 
@@ -59,9 +61,9 @@ public class BuildCategoriesFromTransactions
             }
 
             //Now find accounts 
-            var count = _context.TransactionCategories
+            var count = await _context.TransactionCategories
                 .Where(a => a.HouseholdId == householdId)
-                .Count();
+                .CountAsync();
 
             List<string> names = new();
 
@@ -73,27 +75,28 @@ public class BuildCategoriesFromTransactions
                 }
             }
 
-            foreach (var name in names)
+            if (names.IsPopulated())
             {
-                if (_context.TransactionCategories.Any(t => t.HouseholdId == householdId && t.CategoryName == name))
+                foreach (var name in names)
                 {
-                    continue;
-                }
-                else
-                {
-                    var category = new TransactionCategory
+                    if (await _context.TransactionCategories.AnyAsync(t => t.HouseholdId == householdId && t.CategoryName == name))
                     {
-                        CategoryName = name,
-                        HouseholdId = householdId
-                    };
+                        continue;
+                    }
+                    else
+                    {
+                        var category = new TransactionCategory
+                        {
+                            CategoryName = name,
+                            HouseholdId = householdId
+                        };
 
-                    _context.TransactionCategories.Add(category);
+                        await _context.TransactionCategories.AddAsync(category);
+                    }
                 }
             }
 
             await _context.SaveChangesAsync();
-
-            await _context.CommitTransactionContext(transaction);
         }
         catch (Exception)
         {

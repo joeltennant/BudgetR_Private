@@ -54,8 +54,9 @@ else if (response == "3")
 else if (response == "4")
 {
     new UpdateMonthsService(context).Execute();
-    await new BuildAccountsFromTransactions(context).Build(householdId);
-    await new BuildCategoriesFromTransactions(context).Build(householdId);
+    await new SeedingService(context).Execute();
+    //await new BuildAccountsFromTransactions(context).Build(householdId);
+    //await new BuildCategoriesFromTransactions(context).Build(householdId);
 }
 else
 {

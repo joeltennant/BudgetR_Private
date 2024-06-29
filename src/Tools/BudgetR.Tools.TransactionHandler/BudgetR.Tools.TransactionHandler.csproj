@@ -12,4 +12,10 @@
     <ProjectReference Include="..\..\Server\BudgetR.Server.Services\BudgetR.Server.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Configuration.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
