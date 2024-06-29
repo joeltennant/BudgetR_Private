@@ -183,7 +183,7 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                     b.HasKey("BusinessTransactionActivityId");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique(false);
 
                     b.ToTable("BusinessTransactionActivities");
 

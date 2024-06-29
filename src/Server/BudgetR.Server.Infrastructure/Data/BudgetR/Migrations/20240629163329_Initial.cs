@@ -1083,7 +1083,7 @@ public partial class Initial : Migration
             name: "IX_BusinessTransactionActivities_UserId",
             table: "BusinessTransactionActivities",
             column: "UserId",
-            unique: true);
+            unique: false);
 
         migrationBuilder.CreateIndex(
             name: "IX_ExpenseDetails_BudgetMonthId",
