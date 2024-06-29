@@ -78,17 +78,24 @@ public class BuildAccountsFromTransactions
             //create Account entity objects from list of names
             foreach (var name in names)
             {
-                (BalanceType balanceType, long AccountTypeId) types = DetermineAccountTypeAndBalanceType(name);
-                var account = new Account
+                if (await _context.Accounts.AnyAsync(t => t.HouseholdId == householdId && t.LongName == name))
                 {
-                    Name = name,
-                    LongName = name,
-                    AccountTypeId = types.AccountTypeId,
-                    Balance = 0,
-                    HouseholdId = householdId
-                };
+                    continue;
+                }
+                else
+                {
+                    (BalanceType balanceType, long AccountTypeId) types = DetermineAccountTypeAndBalanceType(name);
+                    var account = new Account
+                    {
+                        Name = name,
+                        LongName = name,
+                        AccountTypeId = types.AccountTypeId,
+                        Balance = 0,
+                        HouseholdId = householdId
+                    };
 
-                await _context.Accounts.AddAsync(account);
+                    await _context.Accounts.AddAsync(account);
+                }
             }
 
             await _context.SaveChangesAsync();
