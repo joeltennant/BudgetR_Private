@@ -1,4 +1,4 @@
-﻿namespace BudgetR.Server.Handlers.Handlers.Users;
+﻿namespace BudgetR.Server.Application.Handlers.Users;
 public static class GetUserId
 {
     public class Request : RequestBase, IRequest<Result<long?>>;
@@ -12,14 +12,7 @@ public static class GetUserId
 
         public async Task<Result<long?>> Handle(Request request, CancellationToken cancellationToken)
         {
-            if (_stateContainer.UserId != null)
-            {
-                return Result.Success(_stateContainer.UserId);
-            }
-            else
-            {
-                return Result.NotFound();
-            }
+            return _stateContainer.UserId != null ? Result.Success(_stateContainer.UserId) : Result.NotFound();
         }
     }
 }

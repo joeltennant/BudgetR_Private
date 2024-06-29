@@ -1,7 +1,7 @@
 using BudgetR.Components;
 using BudgetR.Components.Account;
 using BudgetR.Core;
-using BudgetR.Server.Handlers;
+using BudgetR.Server.Application;
 using BudgetR.Server.Infrastructure;
 using BudgetR.Server.Infrastructure.Data.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;

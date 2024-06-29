@@ -1,5 +1,4 @@
-﻿
-namespace BudgetR.Server.Application.Handlers.Accounts;
+﻿namespace BudgetR.Server.Application.Handlers.Accounts;
 public class Add
 {
     public record Request(string? AccountName, decimal? Balance, long AccountTypeId) : IRequest<Result<NoValue>>;

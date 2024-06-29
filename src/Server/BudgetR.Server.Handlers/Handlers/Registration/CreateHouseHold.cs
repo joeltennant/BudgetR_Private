@@ -1,7 +1,7 @@
 ﻿using BudgetR.Core.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace BudgetR.Server.Handlers.Handlers.Registration;
+namespace BudgetR.Server.Application.Handlers.Registration;
 public class CreateHouseHold
 {
     public class Request : RequestBase, IRequest<Result<NoValue>>

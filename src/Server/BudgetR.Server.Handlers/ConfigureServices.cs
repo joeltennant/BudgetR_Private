@@ -1,9 +1,9 @@
-﻿using BudgetR.Server.Handlers.PipelineBehaviors;
+﻿using BudgetR.Server.Application.PipelineBehaviors;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace BudgetR.Server.Handlers;
+namespace BudgetR.Server.Application;
 
 public static class ConfigureServices
 {

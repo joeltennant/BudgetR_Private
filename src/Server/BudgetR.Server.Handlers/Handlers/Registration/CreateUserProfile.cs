@@ -1,6 +1,6 @@
 ﻿using BudgetR.Core.Enums;
 
-namespace BudgetR.Server.Handlers.Handlers.Registration;
+namespace BudgetR.Server.Application.Handlers.Registration;
 public class CreateUserProfile
 {
     public class Request : RequestBase, IRequest<Result<long>>

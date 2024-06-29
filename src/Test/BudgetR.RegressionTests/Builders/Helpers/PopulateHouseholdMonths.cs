@@ -29,7 +29,7 @@ public static class PopulateHouseholdMonths
             .OrderBy(m => m.MonthYearId)
             .ToListAsync();
 
-        List<BudgetMonth> monthBudgets = new();
+        List<BudgetMonth> monthBudgets = [];
 
         foreach (var monthYear in monthYears)
         {

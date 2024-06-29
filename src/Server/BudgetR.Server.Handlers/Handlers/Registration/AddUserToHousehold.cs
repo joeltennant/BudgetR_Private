@@ -1,4 +1,4 @@
-﻿namespace BudgetR.Server.Handlers.Handlers.Registration;
+﻿namespace BudgetR.Server.Application.Handlers.Registration;
 public class AddUserToHousehold
 {
 }

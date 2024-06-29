@@ -1,4 +1,6 @@
-﻿public static class DeleteAccount
+﻿using BudgetR.Server.Application;
+
+public static class DeleteAccount
 {
     public record Request(long AccountId) : IRequest<Result<NoValue>>;
 

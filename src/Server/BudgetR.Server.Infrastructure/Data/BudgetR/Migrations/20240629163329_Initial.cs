@@ -27,6 +27,25 @@ public partial class Initial : Migration
             });
 
         migrationBuilder.CreateTable(
+            name: "Logs",
+            columns: table => new
+            {
+                LogId = table.Column<long>(type: "bigint", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                LogType = table.Column<int>(type: "int", nullable: false),
+                IsHidden = table.Column<bool>(type: "bit", nullable: false),
+                HouseholdId = table.Column<long>(type: "bigint", nullable: false),
+                UserId = table.Column<long>(type: "bigint", nullable: true),
+                BusinessTransactionActivityId = table.Column<long>(type: "bigint", nullable: true),
+                Created = table.Column<DateTime>(type: "datetime2", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Logs", x => x.LogId);
+            });
+
+        migrationBuilder.CreateTable(
             name: "TransactionCategories",
             columns: table => new
             {
@@ -854,7 +873,8 @@ public partial class Initial : Migration
                 TransactionYear = table.Column<int>(type: "int", maxLength: 4, nullable: false),
                 TransactionCategoryId = table.Column<long>(type: "bigint", nullable: true),
                 TransactionBatchId = table.Column<long>(type: "bigint", nullable: true),
-                HouseholdId = table.Column<long>(type: "bigint", nullable: false)
+                HouseholdId = table.Column<long>(type: "bigint", nullable: false),
+                PreventReprocessing = table.Column<bool>(type: "bit", nullable: false)
             },
             constraints: table =>
             {
@@ -1027,7 +1047,7 @@ public partial class Initial : Migration
         migrationBuilder.InsertData(
             table: "BusinessTransactionActivities",
             columns: new[] { "BusinessTransactionActivityId", "CreatedAt", "ProcessName", "UserId" },
-            values: new object[] { 1L, new DateTime(2024, 6, 18, 10, 50, 3, 949, DateTimeKind.Local).AddTicks(9848), "Initial Seeding", 1L });
+            values: new object[] { 1L, new DateTime(2024, 6, 29, 10, 33, 29, 542, DateTimeKind.Local).AddTicks(497), "Initial Seeding", 1L });
 
         migrationBuilder.CreateIndex(
             name: "IX_Accounts_AccountTypeId",
@@ -1262,6 +1282,9 @@ public partial class Initial : Migration
             .Annotation("SqlServer:TemporalHistoryTableSchema", null)
             .Annotation("SqlServer:TemporalPeriodEndColumnName", "ModifiedAt")
             .Annotation("SqlServer:TemporalPeriodStartColumnName", "CreatedAt");
+
+        migrationBuilder.DropTable(
+            name: "Logs");
 
         migrationBuilder.DropTable(
             name: "TransactionCategoryRules");

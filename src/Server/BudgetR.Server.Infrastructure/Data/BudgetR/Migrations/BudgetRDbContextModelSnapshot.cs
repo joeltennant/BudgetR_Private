@@ -182,13 +182,16 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
 
                     b.HasKey("BusinessTransactionActivityId");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("BusinessTransactionActivities");
 
                     b.HasData(
                         new
                         {
                             BusinessTransactionActivityId = 1L,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 50, 3, 949, DateTimeKind.Local).AddTicks(9848),
+                            CreatedAt = new DateTime(2024, 6, 29, 10, 33, 29, 542, DateTimeKind.Local).AddTicks(497),
                             ProcessName = "Initial Seeding",
                             UserId = 1L
                         });
@@ -507,6 +510,40 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                                     .HasPeriodEnd("ModifiedAt")
                                     .HasColumnName("ModifiedAt");
                             }));
+                });
+
+            modelBuilder.Entity("BudgetR.Server.Domain.Entities.Log", b =>
+                {
+                    b.Property<long>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("LogId"));
+
+                    b.Property<long?>("BusinessTransactionActivityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("HouseholdId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LogType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LogId");
+
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("BudgetR.Server.Domain.Entities.MonthYear", b =>
@@ -1684,6 +1721,10 @@ namespace BudgetR.Server.Infrastructure.Data.BudgetR.Migrations
                     b.Property<long>("HouseholdId")
                         .HasColumnType("bigint")
                         .HasColumnOrder(10);
+
+                    b.Property<bool>("PreventReprocessing")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(11);
 
                     b.Property<long?>("TransactionBatchId")
                         .HasColumnType("bigint")

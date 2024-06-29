@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\Server\BudgetR.Server.Handlers\BudgetR.Server.Handlers.csproj" />
     <ProjectReference Include="..\..\Server\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Server\BudgetR.Server.Services\BudgetR.Server.Services.csproj" />
+    <ProjectReference Include="..\..\Server\BudgetR.Server.Handlers\BudgetR.Server.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

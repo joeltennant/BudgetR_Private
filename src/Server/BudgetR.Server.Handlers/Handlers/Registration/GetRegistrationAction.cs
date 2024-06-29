@@ -1,6 +1,6 @@
 ﻿using BudgetR.Core.Enums;
 
-namespace BudgetR.Server.Handlers.Handlers.Registration;
+namespace BudgetR.Server.Application.Handlers.Registration;
 public static class GetRegistrationAction
 {
     public class Request : RequestBase, IRequest<Result<AuthenticationAction>>

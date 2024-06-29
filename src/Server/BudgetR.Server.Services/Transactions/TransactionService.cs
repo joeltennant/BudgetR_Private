@@ -49,10 +49,9 @@ public class TransactionService
         TransactionProcessorDto transactionProcessorDto = new()
         {
             TransactionBatchDto = batch,
+            UserId = _stateContainer.UserId.Value,
+            HouseholdId = batch.HouseholdId
         };
-
-        transactionProcessorDto.UserId = _stateContainer.UserId.Value;
-        transactionProcessorDto.HouseholdId = batch.HouseholdId;
 
         try
         {
@@ -96,11 +95,11 @@ public class TransactionService
 
     public List<TransactionStep> PopulateProcessTransactionsSteps()
     {
-        return new List<TransactionStep>
-            {
+        return
+            [
                 new() { Step = () => new InitializeTransactionProcess(_context, _stateContainer), StepOrder = 1 },
                 new() { Step = () => new DetermineAccountId(_context, _stateContainer), StepOrder = 2 },
                 new() { Step = () => new DuplicateBatchChecker(_context, _stateContainer), StepOrder = 3 },
-            };
+            ];
     }
 }

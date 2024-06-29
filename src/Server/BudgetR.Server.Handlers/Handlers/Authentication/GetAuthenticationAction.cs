@@ -1,6 +1,6 @@
 ﻿using BudgetR.Core.Enums;
 
-namespace BudgetR.Server.Handlers.Handlers.Authentication;
+namespace BudgetR.Server.Application.Handlers.Authentication;
 public class GetAuthenticationAction
 {
     public class Request : RequestBase, IRequest<Result<AuthenticationAction>>

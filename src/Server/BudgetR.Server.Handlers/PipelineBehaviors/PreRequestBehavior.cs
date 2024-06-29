@@ -3,7 +3,7 @@ using MediatR.Pipeline;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace BudgetR.Server.Handlers.PipelineBehaviors;
+namespace BudgetR.Server.Application.PipelineBehaviors;
 
 public class PreRequestBehavior<TRequest> : IRequestPreProcessor<TRequest>
 {
