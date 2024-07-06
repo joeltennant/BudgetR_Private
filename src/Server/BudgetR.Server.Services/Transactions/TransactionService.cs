@@ -88,18 +88,15 @@ public class TransactionService
         }
     }
 
-    public void ReProcessTransactions()
-    {
-
-    }
-
     public List<TransactionStep> PopulateProcessTransactionsSteps()
     {
-        return
-            [
-                new() { Step = () => new InitializeTransactionProcess(_context, _stateContainer), StepOrder = 1 },
-                new() { Step = () => new DetermineAccountId(_context, _stateContainer), StepOrder = 2 },
-                new() { Step = () => new DuplicateBatchChecker(_context, _stateContainer), StepOrder = 3 },
-            ];
+        return new List<TransactionStep>()
+        {
+            new() { Step = () => new InitializeTransactionProcess(_context, _stateContainer), StepOrder = 1 },
+            new() { Step = () => new DetermineAccountId(_context, _stateContainer), StepOrder = 2 },
+            new() { Step = () => new DuplicateBatchChecker(_context, _stateContainer), StepOrder = 3 },
+            new() { Step = () => new DetermineTransactionType(_context, _stateContainer), StepOrder = 4 },
+            new() { Step = () => new DetermineCategoryId(_context, _stateContainer), StepOrder = 5 },
+        };
     }
 }

@@ -189,4 +189,5 @@ public class TransactionCsvDto
     public string AccountName { get; set; }
     public long? AccountId { get; set; }
     public string SimpleDescription { get; set; }
+    public TransactionType TransactionType { get; set; }
 }
