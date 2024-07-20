@@ -16,4 +16,8 @@
     <ProjectReference Include="..\BudgetR.Server.Infrastructure\BudgetR.Server.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sandbox\Components\" />
+  </ItemGroup>
+
 </Project>

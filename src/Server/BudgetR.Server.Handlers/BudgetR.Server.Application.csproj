@@ -20,4 +20,8 @@
     <ProjectReference Include="..\BudgetR.Server.Services\BudgetR.Server.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\Sandbox\" />
+  </ItemGroup>
+
 </Project>

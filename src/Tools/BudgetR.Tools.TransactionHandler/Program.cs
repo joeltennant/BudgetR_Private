@@ -28,7 +28,7 @@ Console.WriteLine("Enter Number: ");
 StateContainer stateContainer = new()
 {
     UserId = 1,//system user
-    HouseholdId = 1
+    HouseholdId = 2
 };
 
 long householdId = stateContainer.HouseholdId.Value;
